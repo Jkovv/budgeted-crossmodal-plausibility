@@ -53,7 +53,7 @@ def test_decimal_slip_directions_are_balanced():
     ("creatinine", 1.0, 88.0),      # mg/dL written as umol/L
     ("bun", 28, 10.0),              # mg/dL written as mmol/L urea
     ("hemoglobin", 9.8, 98.0),      # g/dL written as g/L
-    ("hematocrit", 29.5, 0.3),      # % written as a fraction
+    ("hematocrit", 30.2, 0.3),      # % written as a fraction
     ("temperature", 37.0, 98.6),    # Celsius written as Fahrenheit
     ("weight", 80.0, 176.4),        # kg written as lb
     ("vancomycin", 2000, 2.0),      # mg written as g
