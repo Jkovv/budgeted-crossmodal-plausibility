@@ -41,14 +41,19 @@ def budget_counts(order: np.ndarray, patient: np.ndarray, masks: dict[str, np.nd
     Q = np.rint(np.outer(V, budgets))                          # resamples x budgets
     total_w = cum_w[:, -1] if cum_w.shape[1] else np.zeros(len(weights))
     raised = np.minimum(Q, total_w[:, None])
+    # only the ranked prefix any budget can reach matters for the masked sums
+    if cum_w.shape[1]:
+        reach = (cum_w < raised.max(axis=1)[:, None]).sum(axis=1).max() + 1
+        w_cells, cum_w = w_cells[:, :reach], cum_w[:, :reach]
     out = {"Q": Q, "raised": raised}
     for name, m in masks.items():
-        cum_m = np.cumsum(w_cells * m[order], axis=1)
+        cum_m = np.cumsum(w_cells * m[order][: w_cells.shape[1]], axis=1)
         tp = np.zeros_like(Q)
         for j in range(Q.shape[1]):
             tp[:, j] = _take(cum_w, cum_m, raised[:, j])
         out[f"tp_{name}"] = tp
-        out[f"n_{name}"] = np.broadcast_to((weights[:, patient] * m).sum(axis=1)[:, None], Q.shape).copy()
+        per_patient = np.bincount(patient, weights=m.astype(float), minlength=weights.shape[1])
+        out[f"n_{name}"] = np.broadcast_to((weights @ per_patient)[:, None], Q.shape).copy()
     return out
 
 
