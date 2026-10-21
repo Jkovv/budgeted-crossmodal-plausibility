@@ -27,7 +27,7 @@ range rules of an EDC system. It uses the MIMIC-IV Clinical Database Demo,
 resampled from ICU data to a clinical trial visit schedule, with realistic
 transcription errors injected and held-out patients for every reported number.
 Errors are detected and explained, never corrected. With more queries than
-there are rule violations the model stays ahead (recall 0.68 against 0.51 at
+there are rule violations the model stays ahead (recall 0.67 against 0.51 at
 one query per patient-visit), and at 0.5% and 5% error rates it is ahead at
 the primary budget too; these comparisons are descriptive.
 
@@ -101,10 +101,10 @@ All numbers are from `results/tables/*.csv` and `results/summary.json`.
 |---|---:|---:|---:|---:|---:|
 | Queries | 15 | 31 | 76 | 153 | 306 |
 | Plausibility model | **1.00** | **0.96** | 0.69 | 0.42 | 0.23 |
-| Range rules | 0.74 | 0.79 | 0.66 | 0.35 | 0.18 |
+| Range rules | 0.74 | 0.79 | 0.66 | 0.35 | 0.17 |
 | Combined (rules first) | 0.75 | 0.79 | 0.67 | 0.42 | 0.24 |
 | Delta check | 0.50 | 0.44 | 0.31 | 0.19 | 0.12 |
-| Model minus rules | +0.26 (0.19 to 0.28) | +0.17 (0.11 to 0.22) | +0.03 (-0.03 to 0.14) | +0.07 (0.04 to 0.09) | +0.06 (0.05 to 0.07) |
+| Model minus rules | +0.26 (0.19 to 0.28) | +0.17 (0.11 to 0.21) | +0.03 (-0.03 to 0.14) | +0.07 (0.04 to 0.09) | +0.06 (0.05 to 0.07) |
 
 The range rules raise at most 80 queries on the held-out set, because only that
 many values break a rule. Their precision therefore stays at 0.67 at the two
@@ -112,7 +112,7 @@ largest budgets, while their errors caught per budgeted query falls. The
 primary budget sits just below that point, which is also why its interval is
 the widest: in some bootstrap resamples the rules can fill the budget and in
 others they cannot. Recall at each budget, model against rules: 0.14 against
-0.11, 0.28 against 0.23, 0.50 against 0.48, 0.61 against 0.51 and 0.68 against
+0.11, 0.28 against 0.23, 0.50 against 0.48, 0.61 against 0.51 and 0.67 against
 0.51.
 
 ### Which errors are caught
@@ -128,7 +128,7 @@ Recall at the primary budget:
 |---|---:|---:|---:|---:|
 | Decimal slip | 0.89 | 0.83 | 0.85 | 0.53 |
 | Unit error | 0.75 | 0.64 | 0.65 | 0.47 |
-| Digit transposition | 0.50 | 0.39 | 0.39 | 0.29 |
+| Digit transposition | 0.49 | 0.39 | 0.39 | 0.29 |
 | Wrong visit date | 0.80 | **1.00** | **1.00** | 0.00 |
 | Swapped between patients | 0.06 | 0.00 | 0.00 | 0.05 |
 | Copied from previous visit | 0.00 | 0.00 | 0.00 | 0.01 |
@@ -183,7 +183,7 @@ and Benjamini-Hochberg was applied within each of five pseudo-sites. Mean over
 |---|---:|---:|---:|---:|---:|
 | Plausibility model | 10% | 26.7 | 0.09 | 24.9 | **5.7%** (0 to 14%) |
 | Plausibility model | 20% | 47.9 | 0.16 | 38.8 | **17.1%** (2 to 41%) |
-| Range rules | 10% | 39.2 | 0.13 | 25.2 | 23.7% (0 to 45%) |
+| Range rules | 10% | 39.2 | 0.13 | 25.2 | 23.7% (0 to 44%) |
 | Range rules | 20% | 71.3 | 0.23 | 46.2 | 35.7% (30 to 42%) |
 | Combined | 10% | 42.3 | 0.14 | 26.3 | 27.3% (0 to 51%) |
 | Combined | 20% | 81.9 | 0.27 | 50.0 | 39.4% (32 to 49%) |
