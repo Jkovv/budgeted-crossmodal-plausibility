@@ -254,8 +254,8 @@ training patients) would have their swapped values detected more often.
   field the model separates swapped from clean values with an AUROC between
   0.48 and 0.96, below the 0.97 that a multianalyte delta check reached on
   consecutive inpatient chemistry results (Rosenbaum and Baron 2018). Here
-  visits are a day or a week apart, and a swapped value is usually within the
-  receiving patient's normal range.
+  visits are a day or a week apart, and 46% of the swaps move the value by
+  less than two of the patient's typical visit-to-visit SDs.
 * **Cross-modal context adds little overall.** The model works mostly through
   the patient's own history. Its cross-modal gains are confined to fields that
   are arithmetically tied (hematocrit and hemoglobin, the electrolytes,
