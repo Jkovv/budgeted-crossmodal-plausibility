@@ -10,6 +10,8 @@ import datetime as dt
 import numpy as np
 import pandas as pd
 
+from . import config as C
+
 EPOCH = dt.date(1970, 1, 1)
 
 
@@ -106,3 +108,69 @@ def swap_pairs(cells: pd.DataFrame, group: pd.Series, eligible: np.ndarray, n_pa
             pairs.append((a, b))
             used.update((a, b))
     return pairs
+
+
+def allocate(n_cells: int, rate: float, types=C.ERROR_TYPES) -> dict[str, int]:
+    """Planned number of errors per type: the total split into equal shares."""
+    total = int(round(rate * n_cells))
+    base, extra = divmod(total, len(types))
+    return {t: base + (i < extra) for i, t in enumerate(types)}
+
+
+def inject(cells: pd.DataFrame, group: pd.Series, rate: float, seed: int) -> tuple[pd.DataFrame, pd.DataFrame, dict]:
+    """Corrupt a copy of the cells. Returns (corrupted cells, ground truth, planned vs injected counts)."""
+    rng = np.random.default_rng(seed)
+    cells = cells.reset_index(drop=True)
+    value = cells.value.to_numpy().copy()
+    is_date = cells.modality.eq("date").to_numpy()
+    spec = C.VALUE_FIELDS
+    taken = np.zeros(len(cells), bool)
+    truth = []
+
+    def record(i, etype, new, mech, partner=-1):
+        truth.append(dict(cell_id=int(cells.cell_id.iat[i]), error_type=etype, mechanism=mech,
+                          original=float(cells.value.iat[i]), injected=float(new),
+                          partner_cell_id=int(cells.cell_id.iat[partner]) if partner >= 0 else -1))
+        value[i] = new
+        taken[i] = True
+
+    planned = allocate(len(cells), rate)
+    prev = previous_values(cells).to_numpy()
+    for etype, k in planned.items():
+        done = 0
+        if etype == "patient_swap":
+            for a, b in swap_pairs(cells, group, ~is_date & ~taken, k // 2, rng):
+                va, vb = cells.value.iat[a], cells.value.iat[b]
+                record(a, etype, vb, "swapped", b)
+                record(b, etype, va, "swapped", a)
+            continue
+        if etype == "wrong_date":
+            pool = np.flatnonzero(is_date & ~taken)
+        elif etype == "copy_previous":
+            pool = np.flatnonzero(~is_date & ~taken & ~np.isnan(prev) & (prev != cells.value.to_numpy()))
+        else:
+            pool = np.flatnonzero(~is_date & ~taken)
+        for i in rng.permutation(pool):
+            if done == k:
+                break
+            v, field = cells.value.iat[i], cells.field.iat[i]
+            if etype == "wrong_date":
+                out = wrong_date(int(v), rng)
+                new, mech = out if out else (None, None)
+            elif etype == "copy_previous":
+                new, mech = prev[i], "copied from previous visit"
+            elif etype == "unit_error":
+                new, mech = unit_error(v, spec[field]["alt"]), "alternative unit"
+            elif etype == "decimal_slip":
+                new = decimal_slip(v, spec[field]["dec"], rng)
+                mech = None if new is None else ("x10" if new > v else "/10")
+            else:
+                new, mech = transpose_digits(v, spec[field]["dec"], rng), "adjacent digits exchanged"
+            if new is not None:
+                record(i, etype, new, mech)
+                done += 1
+
+    truth = pd.DataFrame(truth, columns=["cell_id", "error_type", "mechanism", "original", "injected", "partner_cell_id"])
+    corrupted = cells.assign(value=value)
+    counts = {t: dict(planned=planned[t], injected=int((truth.error_type == t).sum())) for t in planned}
+    return corrupted, truth, counts

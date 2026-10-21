@@ -144,3 +144,91 @@ def test_swap_pairs_respect_field_visit_split_and_values():
         assert ra.value != rb.value
         assert not ({a, b} & seen)
         seen |= {a, b}
+
+
+@pytest.fixture
+def table():
+    import pandas as pd
+    rng = np.random.default_rng(5)
+    rows = []
+    for s in range(1, 41):
+        base = dict(sodium=rng.normal(139, 4), glucose=rng.normal(130, 30), temperature=rng.normal(37, .5),
+                    heart_rate=rng.normal(85, 12))
+        for v in range(6):
+            for f, mu in base.items():
+                dec = {"sodium": 0, "glucose": 0, "temperature": 1, "heart_rate": 0}[f]
+                rows.append(dict(subject_id=s, visit=f"D{v + 1}", visit_idx=v, field=f, modality="lab",
+                                 value=round(float(mu + rng.normal(0, 2)), dec)))
+            rows.append(dict(subject_id=s, visit=f"D{v + 1}", visit_idx=v, field="lab_date", modality="date",
+                             value=float(66000 + 30 * s + v)))
+    c = pd.DataFrame(rows)
+    c.insert(0, "cell_id", np.arange(len(c)) + 1000)
+    group = pd.Series({s: "train" if s <= 20 else "test" for s in range(1, 41)})
+    return c, group
+
+
+def test_inject_hits_the_planned_counts(table):
+    c, group = table
+    cor, truth, counts = I.inject(c, group, 0.05, seed=1)
+    for t, n in counts.items():
+        if t == "patient_swap":
+            assert n["injected"] == 2 * (n["planned"] // 2)
+        else:
+            assert n["injected"] == n["planned"]
+    assert sum(n["planned"] for n in counts.values()) == round(0.05 * len(c))
+    assert truth.cell_id.is_unique
+
+
+def test_inject_ground_truth_matches_the_data(table):
+    c, group = table
+    before = c.copy()
+    cor, truth, _ = I.inject(c, group, 0.05, seed=2)
+    assert c.equals(before)                                     # input untouched
+    t = truth.set_index("cell_id")
+    hit = cor.cell_id.isin(t.index)
+    assert (cor.value[~hit] == c.value[~hit]).all()
+    idx = cor.cell_id[hit]
+    assert np.allclose(cor.value[hit], t.loc[idx, "injected"])
+    assert np.allclose(c.value[hit], t.loc[idx, "original"])
+    assert (t.injected != t.original).all()
+
+
+def test_inject_types_go_to_the_right_cells(table):
+    c, group = table
+    cor, truth, _ = I.inject(c, group, 0.05, seed=3)
+    mod = c.set_index("cell_id").modality
+    assert (mod[truth.cell_id[truth.error_type == "wrong_date"]] == "date").all()
+    assert (mod[truth.cell_id[truth.error_type != "wrong_date"]] != "date").all()
+    fields = c.set_index("cell_id").field
+    assert set(fields[truth.cell_id[truth.error_type == "unit_error"]]) <= {"glucose", "temperature"}
+
+
+def test_copy_previous_uses_the_previous_visit(table):
+    c, group = table
+    _, truth, _ = I.inject(c, group, 0.05, seed=4)
+    cc = c.set_index("cell_id")
+    for r in truth[truth.error_type == "copy_previous"].itertuples():
+        cell = cc.loc[r.cell_id]
+        prev = cc[(cc.subject_id == cell.subject_id) & (cc.field == cell.field) & (cc.visit_idx == cell.visit_idx - 1)]
+        assert r.injected == prev.value.item()
+
+
+def test_swaps_are_symmetric_and_within_split(table):
+    c, group = table
+    _, truth, _ = I.inject(c, group, 0.05, seed=5)
+    cc = c.set_index("cell_id")
+    sw = truth[truth.error_type == "patient_swap"].set_index("cell_id")
+    assert len(sw) > 0
+    for cid, r in sw.iterrows():
+        a, b = cc.loc[cid], cc.loc[r.partner_cell_id]
+        assert sw.loc[r.partner_cell_id, "partner_cell_id"] == cid
+        assert r.injected == b.value and sw.loc[r.partner_cell_id, "injected"] == a.value
+        assert a.field == b.field and a.visit == b.visit and group[a.subject_id] == group[b.subject_id]
+
+
+def test_inject_is_deterministic(table):
+    c, group = table
+    t1 = I.inject(c, group, 0.05, seed=9)[1]
+    t2 = I.inject(c, group, 0.05, seed=9)[1]
+    t3 = I.inject(c, group, 0.05, seed=10)[1]
+    assert t1.equals(t2) and not t1.equals(t3)
