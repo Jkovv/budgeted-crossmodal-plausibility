@@ -6,6 +6,8 @@ metric is a weighted count and all resamples can be computed at once.
 """
 from __future__ import annotations
 
+import warnings
+
 import numpy as np
 from scipy import stats as sps
 
@@ -124,4 +126,6 @@ def index_of_individuality(values: np.ndarray, patient: np.ndarray, min_visits: 
 
 def percentile_ci(draws: np.ndarray, level: float = 0.95) -> tuple[np.ndarray, np.ndarray]:
     a = (1 - level) / 2
-    return np.nanquantile(draws, a, axis=0), np.nanquantile(draws, 1 - a, axis=0)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", RuntimeWarning)
+        return np.nanquantile(draws, a, axis=0), np.nanquantile(draws, 1 - a, axis=0)
