@@ -1,33 +1,36 @@
 # Budgeted cross-modal plausibility checks for clinical trial data
 
+**When few queries can be sent, a plausibility model that checks each value
+against the rest of the patient's record catches clearly more errors per query
+than EDC range rules: 1.00 against 0.74 at 0.05 queries per patient per visit,
+0.96 against 0.79 at 0.10. With conformal p-values and Benjamini-Hochberg in
+place of a fixed budget, false-query control holds for the model (5.7% false
+queries at a 10% target, 17.1% at 20%) and fails for the range rules (23.7%
+and 35.7%). The pre-specified primary comparison, at 0.25 queries
+per patient per visit, found no clear difference: 0.69 against 0.66 errors per
+query, +0.03 (95% CI -0.03 to +0.14), on 49 held-out patients with 2% of
+values in error.**
+
+**The advantage comes from the patient's own history of the same field. The
+model also sees the laboratory values, vital signs and medications of the same
+visit, but at daily and weekly visits that context adds almost nothing:
+removing any one of them changes nothing, removing the patient's own history
+costs 0.05 errors per query. Values copied forward from the previous visit and
+values swapped between patients stay largely undetectable from the values
+alone: the model catches 0% and 6% of them at the primary budget, the range
+rules none.**
+
 A data manager can only send so many queries to a site. This repository asks
 whether, at a fixed query budget measured in queries per patient per visit, a
-model that judges each recorded value against the rest of the patient's record
-catches more data errors than the range rules of an EDC system. It uses the
-MIMIC-IV Clinical Database Demo, resampled from ICU data to a clinical trial
-visit schedule, with realistic transcription errors injected and held-out
-patients for every reported number. Errors are detected and explained, never
-corrected.
-
-**Headline result: at the pre-specified budget of 0.25 queries per patient per
-visit, the plausibility model caught 0.69 errors per query and the range rules
-0.66, a difference of +0.03 (95% CI -0.03 to +0.14). That is no clear
-difference, on 49 held-out patients with 2% of values in error.**
-
-**The budget decides the answer. With fewer queries the model is clearly ahead
-(1.00 against 0.74 errors per query at 0.05, 0.96 against 0.79 at 0.10),
-because the rules spend part of a small budget on genuine extreme values. With
-more queries than there are rule violations, the rules have nothing left to
-query and the model keeps finding errors inside the plausible range (recall
-0.68 against 0.51 at one query per patient-visit). At 0.5% and 5% error rates
-the model is ahead at the primary budget too.**
-
-**Two error types are close to invisible to every detector: values copied from
-the previous visit (0% caught at the primary budget) and values swapped between
-patients (6%). And most of the model's advantage comes from the patient's own
-history of the same field, not from the other modalities: dropping any one
-modality changes nothing, dropping the patient's own history costs 0.05 errors
-per query.**
+model that judges each recorded value against the patient's other visits and
+the other data recorded at the same visit catches more data errors than the
+range rules of an EDC system. It uses the MIMIC-IV Clinical Database Demo,
+resampled from ICU data to a clinical trial visit schedule, with realistic
+transcription errors injected and held-out patients for every reported number.
+Errors are detected and explained, never corrected. With more queries than
+there are rule violations the model stays ahead (recall 0.68 against 0.51 at
+one query per patient-visit), and at 0.5% and 5% error rates it is ahead at
+the primary budget too; these comparisons are descriptive.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="results/figures/budget_comparison_dark.png">
@@ -281,9 +284,11 @@ training patients) would have their swapped values detected more often.
    (Nelson et al. 2025); data-cleaning work reports precision and recall at a
    tool's own threshold or fixes the labeling effort (Raha, Baran), and Abedjan
    et al. 2016 order tools to save verification effort on enterprise data.
-2. **The setting:** EDC-style range rules against a cross-modal model on ICU
-   data resampled to a trial schedule, transcription errors only, a modality
-   ablation, held-out patients and a pre-registered plan.
+2. **The setting:** EDC-style range rules against a plausibility model that is
+   given the patient's history and the other modalities, on ICU data
+   resampled to a trial schedule, with a modality ablation that measures how
+   much of that context the model uses, transcription errors only, held-out
+   patients and a pre-registered plan.
 3. **Conformal false-query control for clinical data queries.** The method is
    Bates et al. 2023; only its use here is new.
 
