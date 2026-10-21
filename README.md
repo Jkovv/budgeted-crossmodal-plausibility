@@ -328,6 +328,33 @@ over visit spacing on the same data (for example hourly, every 6 hours, daily,
 weekly) with the swap definition, error rate, held-out patients and budget
 held fixed. Nothing here tests it.
 
+## Open problems (future work)
+
+Not implemented here. Two kinds of error leave nothing wrong in the values
+themselves:
+
+* **Copied-forward values** look like a stable patient. No detector catches
+  more than 1% of them at the primary budget, and the check that would (a
+  value identical to the previous visit) fires on every genuinely stable
+  patient as well.
+* **Patient swaps at low measurement density.** At daily and weekly visits
+  about half of the swapped values lie within two of the patient's typical
+  visit-to-visit SDs of the true value.
+
+Signals outside the values that could catch them:
+
+* **Timestamps and audit trails.** When each value was entered and changed, and
+  by whom: a value carried over from a pre-filled form and never edited, a form
+  completed in a few seconds, or the same block of fields entered for two
+  patients one after the other.
+* **Device or source data.** Comparing transcribed values with the laboratory
+  feed, the device or the EHR they came from, which settles copies and swaps
+  directly where a source exists.
+* **Entry patterns.** Per site or per person entering the data: how often
+  values repeat exactly from one visit to the next, digit preference, the order
+  in which forms are filled in. Central statistical monitoring uses signals
+  like these at the level of the centre.
+
 ## What is new
 
 `docs/literature_check.md` records the search. As far as it goes:
