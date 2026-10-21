@@ -13,6 +13,7 @@ import hashlib
 import os
 import sys
 import time
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -47,19 +48,40 @@ def sha256(path: Path) -> str:
     return h.hexdigest()
 
 
-def fetch(rel: str, dest: Path, retries: int = 5) -> None:
+def fetch(rel: str, dest: Path, expected: str | None = None, retries: int = 8) -> None:
+    """Download into dest. A dropped or timed-out connection resumes where it stopped; a
+    file with the wrong checksum is fetched again from the start."""
     dest.parent.mkdir(parents=True, exist_ok=True)
     tmp = dest.with_suffix(dest.suffix + ".part")
+    tmp.unlink(missing_ok=True)
     for attempt in range(1, retries + 1):
+        have = tmp.stat().st_size if tmp.exists() else 0
+        req = urllib.request.Request(BASE_URL + rel, headers={"Range": f"bytes={have}-"} if have else {})
         try:
-            with urllib.request.urlopen(BASE_URL + rel, timeout=120) as r, open(tmp, "wb") as f:
-                while chunk := r.read(1 << 20):
-                    f.write(chunk)
+            with urllib.request.urlopen(req, timeout=120) as r:
+                length, got = int(r.headers.get("Content-Length", -1)), 0
+                with open(tmp, "ab" if r.status == 206 else "wb") as f:
+                    while chunk := r.read(1 << 20):
+                        f.write(chunk)
+                        got += len(chunk)
+                if got < length:        # read(n) returns short on a closed connection, no exception
+                    raise ConnectionError(f"connection closed after {got} of {length} bytes")
+        except urllib.error.HTTPError as e:
+            if e.code != 416:           # 416: nothing left to resume, check what we have
+                print(f"  {rel}: attempt {attempt} failed ({e})", file=sys.stderr)
+                time.sleep(5 * attempt)
+                continue
+        except OSError as e:            # physionet drops connections now and then
+            got = tmp.stat().st_size if tmp.exists() else 0
+            print(f"  {rel}: attempt {attempt} failed ({e}), {got} bytes so far", file=sys.stderr)
+            time.sleep(5 * attempt)
+            continue
+        if expected is None or sha256(tmp) == expected:
             tmp.replace(dest)
             return
-        except OSError as e:          # physionet drops connections now and then
-            print(f"  {rel}: attempt {attempt} failed ({e})", file=sys.stderr)
-            time.sleep(5 * attempt)
+        print(f"  {rel}: attempt {attempt} has the wrong checksum, starting again", file=sys.stderr)
+        tmp.unlink()
+        time.sleep(5 * attempt)
     raise RuntimeError(f"could not download {rel}")
 
 
@@ -67,22 +89,18 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.parse_args()
     out = raw_dir()
-    ok = True
     for rel, expected in FILES.items():
         dest = out / rel
         if dest.exists() and sha256(dest) == expected:
             print(f"ok       {rel}")
             continue
-        print(f"download {rel}")
-        fetch(rel, dest)
-        if sha256(dest) != expected:
-            print(f"CHECKSUM MISMATCH {rel}", file=sys.stderr)
-            ok = False
+        print(f"download {rel}", flush=True)
+        fetch(rel, dest, expected)
     for rel in EXTRA:
         if not (out / rel).exists():
             fetch(rel, out / rel)
     print(f"raw data in {out}")
-    return 0 if ok else 1
+    return 0
 
 
 if __name__ == "__main__":
