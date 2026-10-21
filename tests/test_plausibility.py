@@ -65,3 +65,36 @@ def test_sparse_fields_fall_back_to_a_population_z():
     model = P.PlausibilityModel().fit(train, base, ctx)
     assert all(m.simple for m in model.models.values())
     assert np.isfinite(model.z(train, base, ctx)).all()
+
+
+def test_local_maxima_keeps_the_worst_cell_per_neighbourhood():
+    cells = pd.DataFrame({"subject_id": [1, 1, 1, 1, 2], "visit_idx": [0, 0, 1, 2, 0],
+                          "field": ["hemoglobin", "hematocrit", "hemoglobin", "hemoglobin", "hemoglobin"]})
+    prev, nxt = P.adjacent_positions(cells)
+    assert prev.tolist() == [-1, -1, 0, 2, -1] and nxt.tolist() == [2, -1, 3, -1, -1]
+    absz = np.array([9.0, 5.0, 6.0, 4.5, 5.0])
+    pending = absz > 4
+    keep = P.local_maxima(cells, pending, absz, prev, nxt)
+    # 1 loses to 0 (same visit), 2 to 0 (adjacent visit), 3 to 2 (adjacent visit), 4 is alone
+    assert keep.tolist() == [0, 4]
+
+
+def test_explaining_away_clears_the_innocent_neighbour():
+    train, test = _cohort(80, 6), _cohort(20, 7)
+    base, ctx = _ctx(pd.concat([train, test]))
+    model = P.PlausibilityModel().fit(train, base, ctx)
+    bad = test.index[(test.field == "hemoglobin") & (test.subject_id == 3) & (test.visit_idx == 2)][0]
+    test.loc[bad, "value"] += 5
+    out = P.score_with_explaining_away(model, test, base, ctx)
+    assert abs(out.z[bad]) > 4 and out.confirmed[bad]
+    hct = test.index[(test.field == "hematocrit") & (test.subject_id == 3) & (test.visit_idx == 2)][0]
+    assert abs(out.z[hct]) <= abs(out.z_first[hct]) + 1e-9
+
+
+def test_nothing_pending_means_one_pass():
+    train = _cohort(40, 8)
+    base, ctx = _ctx(train)
+    model = P.PlausibilityModel().fit(train, base, ctx)
+    out = P.score_with_explaining_away(model, _cohort(10, 9), base, ctx)
+    if not (np.abs(out.z_first) > 4).any():
+        assert np.allclose(out.z, out.z_first) and out.rounds.iat[0] == 0

@@ -103,3 +103,59 @@ class PlausibilityModel:
             if m is not None:
                 out[rows.index] = m.predict_z(rows[m.cols], rows.y.to_numpy())
         return out
+
+
+def adjacent_positions(cells: pd.DataFrame) -> tuple[np.ndarray, np.ndarray]:
+    """Position of the previous and next recorded cell of the same field and patient (-1 if none)."""
+    c = cells.reset_index(drop=True)
+    order = c.sort_values(["subject_id", "field", "visit_idx"]).index.to_numpy()
+    same = (c.subject_id.to_numpy()[order][1:] == c.subject_id.to_numpy()[order][:-1]) & \
+           (c.field.to_numpy()[order][1:] == c.field.to_numpy()[order][:-1])
+    prev = np.full(len(c), -1)
+    nxt = np.full(len(c), -1)
+    prev[order[1:][same]] = order[:-1][same]
+    nxt[order[:-1][same]] = order[1:][same]
+    return prev, nxt
+
+
+def local_maxima(cells: pd.DataFrame, pending: np.ndarray, absz: np.ndarray,
+                 prev: np.ndarray, nxt: np.ndarray) -> np.ndarray:
+    """Pending cells with no more implausible pending neighbour (same visit, or same field at an
+    adjacent visit). Ties go to the lower position."""
+    pos = np.flatnonzero(pending)
+    s = pd.DataFrame({"p": pos, "subject": cells.subject_id.to_numpy()[pos], "visit": cells.visit_idx.to_numpy()[pos],
+                      "a": absz[pos]})
+    pairs = s.merge(s, on=["subject", "visit"], suffixes=("", "_o"))
+    pairs = pairs[pairs.p != pairs.p_o][["p", "a", "p_o", "a_o"]]
+    adj = []
+    for nb in (prev, nxt):
+        q = nb[pos]
+        ok = (q >= 0) & pending[np.maximum(q, 0)]
+        adj.append(pd.DataFrame({"p": pos[ok], "a": absz[pos[ok]], "p_o": q[ok], "a_o": absz[q[ok]]}))
+    pairs = pd.concat([pairs] + adj, ignore_index=True)
+    beaten = pairs[(pairs.a_o > pairs.a) | ((pairs.a_o == pairs.a) & (pairs.p_o < pairs.p))].p.unique()
+    return np.setdiff1d(pos, beaten)
+
+
+def score_with_explaining_away(model: "PlausibilityModel", cells: pd.DataFrame, baseline: pd.DataFrame,
+                               visit_ctx: pd.DataFrame) -> pd.DataFrame:
+    """First-pass z and the final z after explaining away, per cell."""
+    cells = cells.reset_index(drop=True)
+    prev, nxt = adjacent_positions(cells)
+    z1 = model.z(cells, baseline, visit_ctx)
+    cur, final = z1.copy(), z1.copy()
+    confirmed = np.zeros(len(cells), bool)
+    rounds = 0
+    for r in range(1, C.MAX_ROUNDS + 1):
+        absz = np.nan_to_num(np.abs(cur))
+        pending = (absz > C.Z_CONFIRM) & ~confirmed
+        if not pending.any():
+            break
+        new = local_maxima(cells, pending, absz, prev, nxt)
+        final[new] = cur[new]
+        confirmed[new] = True
+        rounds = r
+        cur = model.z(cells, baseline, visit_ctx, masked=confirmed)
+    final[~confirmed] = cur[~confirmed]
+    return pd.DataFrame({"cell_id": cells.cell_id.to_numpy(), "z_first": z1, "z": final,
+                         "confirmed": confirmed, "rounds": rounds})
