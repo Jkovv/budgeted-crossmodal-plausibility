@@ -14,6 +14,7 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import os
 import sys
 import time
 from concurrent.futures import ProcessPoolExecutor
@@ -145,8 +146,11 @@ STEPS = {"prepare": step_prepare, "primary": step_primary, "ablation": step_abla
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("step", choices=list(STEPS) + ["all"])
-    ap.add_argument("--workers", type=int, default=3)
+    ap.add_argument("--workers", type=int, default=None,
+                    help="parallel replicates (default: cores / LightGBM threads per model)")
     args = ap.parse_args(argv)
+    if args.workers is None:     # more than this oversubscribes the cores and gets much slower
+        args.workers = max(1, (os.cpu_count() or 1) // C.MU_PARAMS["n_jobs"])
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(message)s", datefmt="%H:%M:%S")
     for name in (list(STEPS) if args.step == "all" else [args.step]):
         log.info("step %s", name)

@@ -3,7 +3,8 @@
 # bootstrap, written to results-quick/:  make all-quick
 # Set BCP_DATA_DIR to keep the raw demo files outside the repository.
 PYTHON ?= python
-WORKERS ?= 3
+# parallel replicates; empty means cores / 4, since every model fit uses 4 threads
+WORKERS ?=
 export PYTHONPATH := src
 
 .PHONY: all all-quick install data prepare primary ablation sensitivity evaluate figures explain notebook notebook-quick test clean
@@ -23,13 +24,13 @@ prepare:
 	$(PYTHON) -m bcp.cli prepare
 
 primary:
-	$(PYTHON) -m bcp.cli primary --workers $(WORKERS)
+	$(PYTHON) -m bcp.cli primary $(if $(WORKERS),--workers $(WORKERS))
 
 ablation:
-	$(PYTHON) -m bcp.cli ablation --workers $(WORKERS)
+	$(PYTHON) -m bcp.cli ablation $(if $(WORKERS),--workers $(WORKERS))
 
 sensitivity:
-	$(PYTHON) -m bcp.cli sensitivity --workers $(WORKERS)
+	$(PYTHON) -m bcp.cli sensitivity $(if $(WORKERS),--workers $(WORKERS))
 
 evaluate:
 	$(PYTHON) -m bcp.cli evaluate
