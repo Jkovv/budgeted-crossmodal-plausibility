@@ -6,16 +6,15 @@ than EDC range rules: 1.00 against 0.74 at 0.05 queries per patient per visit,
 0.96 against 0.79 at 0.10. With conformal p-values and Benjamini-Hochberg in
 place of a fixed budget, false-query control holds for the model (5.7% false
 queries at a 10% target, 17.1% at 20%) and fails for the range rules (23.7%
-and 35.7%). The pre-specified primary comparison, at 0.25 queries
-per patient per visit, found no clear difference: 0.69 against 0.66 errors per
-query, +0.03 (95% CI -0.03 to +0.14), on 49 held-out patients with 2% of
-values in error.**
+and 35.7%). The pre-specified primary comparison, at 0.25 queries per patient
+per visit, found no clear difference: 0.69 against 0.66 errors per query, +0.03
+(95% CI -0.03 to +0.14), on 49 held-out patients with 2% of values in error.**
 
 **The advantage comes from the patient's own history of the same field. The
 model also sees the laboratory values, vital signs and medications of the same
 visit, but at daily and weekly visits that context adds almost nothing:
-removing any one of them changes nothing, removing the patient's own history
-costs 0.05 errors per query. Values copied forward from the previous visit and
+removing any one of them makes no clear difference, removing the patient's own
+history costs 0.05 errors per query. Values copied forward from the previous visit and
 values swapped between patients stay largely undetectable from the values
 alone: the model catches 0% and 6% of them at the primary budget, the range
 rules none.**
