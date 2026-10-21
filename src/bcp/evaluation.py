@@ -36,9 +36,13 @@ def size_labels(test: pd.DataFrame, clean: pd.DataFrame, train_ids) -> np.ndarra
     days = np.abs(test.value - test.original).to_numpy()
     lab[err & is_date & (days <= C.DATE_SIZE_BIN)] = f"date <= {C.DATE_SIZE_BIN} days"
     lab[err & is_date & (days > C.DATE_SIZE_BIN)] = f"date > {C.DATE_SIZE_BIN} days"
-    tr = clean[clean.subject_id.isin(train_ids) & clean.modality.ne("date")]
+    values = clean[clean.modality.ne("date")]
+    tr = values[values.subject_id.isin(train_ids)]
     sd = {}
-    for f, g in tr.groupby("field"):
+    for f in values.field.unique():
+        g = tr[tr.field == f]
+        if g.empty:                                             # field with no training cells: all clean cells
+            g = values[values.field == f]
         y = model_scale(f, g.value)
         s = robust_sd(y)
         sd[f] = s if s > 0 else (float(np.std(y)) or 1.0)      # some doses barely vary in training
@@ -224,7 +228,7 @@ def individuality_analysis(data: dict, split: pd.Series, reps_primary, reps_abla
         for name, reps, col in (("full", reps_primary, "model_full"), ("own_history_only", reps_ablation, "model_own_history_only")):
             pooled = pd.concat([x[1][x[1].field == f] for x in reps], ignore_index=True)
             keep = pooled.error_type.isna() | pooled.error_type.eq("patient_swap")
-            pooled = pooled[keep]
+            pooled = pooled[keep & pooled[col].notna()]        # no score for a field absent from training
             y = pooled.error_type.eq("patient_swap").to_numpy()
             row[f"n_swapped_{name}"] = int(y.sum())
             row[f"auroc_{name}"] = roc_auc_score(y, pooled[col]) if 0 < y.sum() < len(y) else np.nan
@@ -271,5 +275,15 @@ def headline(budget_tab: pd.DataFrame) -> dict:
                 difference=d.estimate, difference_lo=d.lo, difference_hi=d.hi, verdict=verdict)
 
 
+def _native(x):
+    if isinstance(x, np.floating):
+        return float(x)
+    if isinstance(x, np.integer):
+        return int(x)
+    if isinstance(x, np.bool_):
+        return bool(x)
+    return str(x)
+
+
 def write_json(path, obj):
-    path.write_text(json.dumps(obj, indent=2, default=lambda x: float(x) if isinstance(x, np.floating) else str(x)))
+    path.write_text(json.dumps(obj, indent=2, default=_native))

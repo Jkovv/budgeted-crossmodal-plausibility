@@ -20,18 +20,25 @@ def _written(value: float, dec: int) -> str:
 
 
 def transpose_digits(value: float, dec: int, rng: np.random.Generator) -> float | None:
-    """Swap two adjacent digits that differ. The decimal point stays put."""
+    """Swap two adjacent digits that differ. The decimal point stays put, and a swap that would
+    only move it (100 -> 010, 0.5 -> 5.0) or leave a leading zero (10.5 -> 01.5) is not a
+    transposition but a decimal slip, so it is never produced."""
     s = _written(value, dec)
     point = s.find(".")
     digits = list(s.replace(".", ""))
-    pairs = [i for i in range(len(digits) - 1) if digits[i] != digits[i + 1]]
-    if not pairs:
+    options = []
+    for i in range(len(digits) - 1):
+        if digits[i] == digits[i + 1] or (i == 0 and digits[1] == "0"):
+            continue
+        d = digits.copy()
+        d[i], d[i + 1] = d[i + 1], d[i]
+        out = "".join(d) if point < 0 else "".join(d[:point]) + "." + "".join(d[point:])
+        new = float(out)
+        if new > 0 and new != value and not any(np.isclose(new, value * k) for k in (10, 0.1)):
+            options.append(new)
+    if not options:
         return None
-    i = pairs[rng.integers(len(pairs))]
-    digits[i], digits[i + 1] = digits[i + 1], digits[i]
-    out = "".join(digits) if point < 0 else "".join(digits[:point]) + "." + "".join(digits[point:])
-    new = float(out)
-    return new if new > 0 and new != value else None
+    return options[rng.integers(len(options))]
 
 
 def unit_error(value: float, alt) -> float | None:

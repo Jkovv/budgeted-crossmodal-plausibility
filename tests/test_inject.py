@@ -12,8 +12,10 @@ def outcomes(fn, *args, n=200):
 @pytest.mark.parametrize("value,dec,expected", [
     (142, 0, {124.0, 412.0}),
     (4.6, 1, {6.4}),
-    (0.9, 1, {9.0}),
     (1.25, 2, {2.15, 1.52}),
+    (120, 0, {210.0, 102.0}),
+    (4.05, 2, {4.5}),
+    (10.5, 1, {15.0}),
     (37.2, 1, {73.2, 32.7}),
 ])
 def test_transpose_digits(value, dec, expected):
@@ -22,6 +24,12 @@ def test_transpose_digits(value, dec, expected):
 
 @pytest.mark.parametrize("value,dec", [(11, 0), (1.1, 1), (5, 0), (2.22, 2)])
 def test_transpose_digits_not_applicable(value, dec):
+    assert outcomes(I.transpose_digits, value, dec) == {None}
+
+
+@pytest.mark.parametrize("value,dec", [(100, 0), (30, 0), (0.5, 1), (0.9, 1), (1.0, 1), (7.0, 1), (1000, 0)])
+def test_transpose_digits_is_never_a_decimal_slip(value, dec):
+    # a leading zero (100 -> 010) or a swap that only moves the point (0.5 -> 5.0) is a decimal slip
     assert outcomes(I.transpose_digits, value, dec) == {None}
 
 
