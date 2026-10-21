@@ -5,6 +5,7 @@ data/*.log
 
 # row-level outputs derived from the data; only aggregate tables and figures are committed
 results/cells/
+results-quick/
 
 # Python
 __pycache__/

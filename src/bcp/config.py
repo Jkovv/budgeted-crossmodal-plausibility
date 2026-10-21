@@ -12,10 +12,11 @@ import os
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+QUICK = os.environ.get("BCP_QUICK") == "1"   # smoke run: fewer replicates, results go to results-quick/
 DATA_DIR = Path(os.environ.get("BCP_DATA_DIR", ROOT / "data"))
 RAW_DIR = DATA_DIR / "raw"
 PROCESSED_DIR = DATA_DIR / "processed"
-RESULTS_DIR = ROOT / "results"
+RESULTS_DIR = ROOT / ("results-quick" if QUICK else "results")
 TABLES_DIR = RESULTS_DIR / "tables"
 FIGURES_DIR = RESULTS_DIR / "figures"
 CELLS_DIR = RESULTS_DIR / "cells"          # row-level outputs, not committed
@@ -126,14 +127,14 @@ ICD_GROUPS = {  # code prefixes per icd version
 ERROR_TYPES = ["wrong_date", "patient_swap", "copy_previous", "unit_error", "decimal_slip", "digit_transposition"]
 ERROR_RATE = 0.02
 SENSITIVITY_RATES = (0.005, 0.05)
-N_REPLICATES = 20
-N_REPLICATES_SECONDARY = 10                # ablation, sensitivity
+N_REPLICATES = 2 if QUICK else 20
+N_REPLICATES_SECONDARY = 1 if QUICK else 10   # ablation, sensitivity
 
 # budgets and statistics
 BUDGETS = (0.05, 0.10, 0.25, 0.50, 1.00)   # queries per patient per visit
 PRIMARY_BUDGET = 0.25
-N_BOOTSTRAP = 2000
-N_PERMUTATIONS = 10000
+N_BOOTSTRAP = 200 if QUICK else 2000
+N_PERMUTATIONS = 1000 if QUICK else 10000
 SIZE_BINS = (0.5, 2.0)                     # robust sd units
 DATE_SIZE_BIN = 7                          # days
 
