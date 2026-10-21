@@ -4,9 +4,9 @@ PYTHON ?= python
 WORKERS ?= 3
 export PYTHONPATH := src
 
-.PHONY: all install data prepare primary ablation sensitivity evaluate figures notebook test clean
+.PHONY: all install data prepare primary ablation sensitivity evaluate figures explain notebook test clean
 
-all: data prepare primary ablation sensitivity evaluate figures
+all: data prepare primary ablation sensitivity evaluate figures explain notebook
 
 install:
 	$(PYTHON) -m pip install -r requirements.txt
@@ -31,6 +31,9 @@ evaluate:
 
 figures:
 	$(PYTHON) -m bcp.cli figures
+
+explain:
+	$(PYTHON) -m bcp.cli explain
 
 notebook:
 	$(PYTHON) -m jupyter nbconvert --to notebook --execute --inplace notebooks/walkthrough.ipynb

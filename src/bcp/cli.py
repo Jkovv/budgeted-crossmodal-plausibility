@@ -6,6 +6,7 @@ ablation     10 replicates, the seven reduced models (same injections as primary
 sensitivity  10 replicates each at 0.5% and 5%
 evaluate     results/cells/ -> results/tables/*.csv, results/summary.json
 figures      results/tables/ -> results/figures/*.png
+explain      query text for replicate 0 at the primary budget -> results/cells/example_queries.parquet
 all          every step in order
 """
 from __future__ import annotations
@@ -127,8 +128,18 @@ def step_figures(args) -> None:
     plots.make_all(C.TABLES_DIR, C.FIGURES_DIR)
 
 
+def step_explain(args) -> None:
+    from . import explain
+    data = load_processed()
+    ex = explain.examples(data, data["split"])
+    C.CELLS_DIR.mkdir(parents=True, exist_ok=True)
+    ex.to_parquet(C.CELLS_DIR / "example_queries.parquet", index=False)
+    log.info("%d example queries", len(ex))
+
+
 STEPS = {"prepare": step_prepare, "primary": step_primary, "ablation": step_ablation,
-         "sensitivity": step_sensitivity, "evaluate": step_evaluate, "figures": step_figures}
+         "sensitivity": step_sensitivity, "evaluate": step_evaluate, "figures": step_figures,
+         "explain": step_explain}
 
 
 def main(argv=None) -> int:
