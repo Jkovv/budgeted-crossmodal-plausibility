@@ -1,7 +1,7 @@
-"""Inject realistic transcription errors into the cell table, keeping the ground truth separately.
+"""Transcription error injection.
 
-Each mechanism acts on the value as a site would write it (rounded to the field's
-decimals) and returns the erroneous value, or None when it does not apply to that value.
+Each mechanism takes the recorded value and returns the wrong one, or None if it
+does not apply.
 """
 from __future__ import annotations
 
@@ -17,7 +17,7 @@ def _written(value: float, dec: int) -> str:
 
 
 def transpose_digits(value: float, dec: int, rng: np.random.Generator) -> float | None:
-    """Exchange two adjacent, different digits of the written value; the decimal point stays in place."""
+    """Swap two adjacent digits that differ. The decimal point stays put."""
     s = _written(value, dec)
     point = s.find(".")
     digits = list(s.replace(".", ""))
@@ -32,8 +32,7 @@ def transpose_digits(value: float, dec: int, rng: np.random.Generator) -> float 
 
 
 def unit_error(value: float, alt) -> float | None:
-    """Write the value in the field's common alternative unit. ``alt`` is (factor or "c2f", decimals)
-    from config; None means the field has no alternative unit that changes the number."""
+    """Value written in the alternative unit from config."""
     if alt is None:
         return None
     factor, dec = alt
@@ -49,7 +48,7 @@ def _date(y: int, m: int, d: int) -> dt.date | None:
 
 
 def date_typos(day_number: int) -> dict[str, list[int]]:
-    """All wrong dates a site could write for a given date, by mechanism (as day numbers)."""
+    """Possible wrong dates per mechanism, as day numbers."""
     d = EPOCH + dt.timedelta(days=int(day_number))
     out: dict[str, list[dt.date]] = {}
     if d.day <= 12 and d.day != d.month:
@@ -64,7 +63,7 @@ def date_typos(day_number: int) -> dict[str, list[int]]:
 
 
 def wrong_date(day_number: int, rng: np.random.Generator) -> tuple[int, str] | None:
-    """A wrong date for the cell: mechanism drawn uniformly among those that apply, then a variant."""
+    """Pick a mechanism that applies, then one of its dates."""
     typos = date_typos(day_number)
     if not typos:
         return None
@@ -74,10 +73,7 @@ def wrong_date(day_number: int, rng: np.random.Generator) -> tuple[int, str] | N
 
 
 def decimal_slip(value: float, dec: int, rng: np.random.Generator) -> float | None:
-    """Move the decimal point one place: x10 or /10 with equal probability.
-
-    A value divided by ten keeps one more decimal (98 written as 9.8), one multiplied keeps one fewer.
-    """
+    """x10 or /10. Dividing keeps one more decimal (98 -> 9.8)."""
     up = bool(rng.integers(2))
     new = round(value * 10, max(dec - 1, 0)) if up else round(value / 10, dec + 1)
     return new if new > 0 and new != value else None

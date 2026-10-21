@@ -1,4 +1,4 @@
-"""Read the raw MIMIC-IV demo tables, keeping only the rows and columns the visit schedule needs."""
+"""Read the raw demo tables and keep what the visit schedule needs."""
 from __future__ import annotations
 
 import re
@@ -15,7 +15,6 @@ def _read(raw: Path, rel: str, **kw) -> pd.DataFrame:
 
 
 def load_tables(raw: Path = C.RAW_DIR) -> dict[str, pd.DataFrame]:
-    """Return the filtered raw tables as a dict of data frames."""
     icu = _read(raw, "icu/icustays", parse_dates=["intime", "outtime"])
     patients = _read(raw, "hosp/patients")
     admissions = _read(raw, "hosp/admissions", parse_dates=["admittime"])
@@ -48,7 +47,7 @@ def load_tables(raw: Path = C.RAW_DIR) -> dict[str, pd.DataFrame]:
 
 
 def index_stays(icu: pd.DataFrame, patients: pd.DataFrame) -> pd.DataFrame:
-    """First ICU stay per patient (day 0 = its admission time), with age and sex."""
+    """First icu stay per patient, with age and sex."""
     idx = icu.sort_values("intime").groupby("subject_id", as_index=False).head(1)
     idx = idx.merge(patients[["subject_id", "gender", "anchor_age", "anchor_year"]], on="subject_id")
     idx["age"] = idx.anchor_age + (idx.intime.dt.year - idx.anchor_year)
@@ -57,7 +56,7 @@ def index_stays(icu: pd.DataFrame, patients: pd.DataFrame) -> pd.DataFrame:
 
 
 def diagnosis_flags(diagnoses: pd.DataFrame, stays: pd.DataFrame) -> pd.DataFrame:
-    """ICD diagnosis groups of each patient's index admission (context only)."""
+    """Diagnosis group flags for the index admission."""
     dx = diagnoses[diagnoses.hadm_id.isin(stays.hadm_id)]
     code = dx.icd_code.astype(str).str.strip().str.upper()
     out = stays[["subject_id", "hadm_id"]].copy()
@@ -70,7 +69,7 @@ def diagnosis_flags(diagnoses: pd.DataFrame, stays: pd.DataFrame) -> pd.DataFram
 
 
 def medication_classes(rx: pd.DataFrame) -> pd.DataFrame:
-    """Order intervals per medication class (context only)."""
+    """Order intervals per medication class."""
     rows = []
     for cls, pattern in C.MED_CLASSES.items():
         m = rx[rx.drug.str.contains(pattern, flags=re.I, regex=True, na=False)]

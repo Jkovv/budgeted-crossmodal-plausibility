@@ -30,7 +30,7 @@ def test_transpose_digits_keeps_the_decimal_point():
     for v, dec in [(123.4, 1), (9.87, 2), (45.6, 1), (0.45, 2)]:
         new = I.transpose_digits(v, dec, rng)
         assert new is not None and new != v
-        assert len(f"{new:.{dec}f}") == len(f"{v:.{dec}f}")      # same digits, same position of the point
+        assert len(f"{new:.{dec}f}") == len(f"{v:.{dec}f}")      # point does not move
 
 
 @pytest.mark.parametrize("value,dec,expected", [

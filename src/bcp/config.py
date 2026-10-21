@@ -1,10 +1,10 @@
-"""All settings of the analysis, mirroring docs/analysis_plan.md.
+"""Settings, matching docs/analysis_plan.md.
 
-edc  = plausible range used by the range-rule detector (an EDC edit check)
-hard = physiologically impossible limits, used only to drop artefacts before injection
-dec  = decimals a site would write
-tf   = modelling scale of the plausibility model ("log" for right-skewed fields)
-unit = alternative unit for the unit-error injection: (factor or "c2f", decimals in that unit), or None
+edc   range used by the range rules
+hard  impossible values, dropped before injection
+dec   decimals as recorded
+tf    model scale (log for skewed fields)
+alt   alternative unit for unit errors: (factor or "c2f", decimals), None if there is none
 """
 from __future__ import annotations
 
@@ -18,17 +18,17 @@ PROCESSED_DIR = DATA_DIR / "processed"
 RESULTS_DIR = ROOT / "results"
 TABLES_DIR = RESULTS_DIR / "tables"
 FIGURES_DIR = RESULTS_DIR / "figures"
-CELLS_DIR = RESULTS_DIR / "cells"          # row-level detector outputs, not committed
+CELLS_DIR = RESULTS_DIR / "cells"          # row-level outputs, not committed
 
 SEED = 20261021
 
 # ------------------------------------------------------------------ split
-N_TRAIN = 50                               # the other patients are held out
+N_TRAIN = 50                               # rest are held out
 
 # ------------------------------------------------------------------ visit schedule
-# label, nominal day after ICU admission, window
+# label, day after icu admission, window
 VISITS = [(f"D{k}", k, "12h") for k in range(1, 8)] + [(f"W{w}", 7 * w, "3d") for w in (2, 3, 4)]
-VITALS_PAIR_WINDOW = "1h"                  # other vital signs within this of the chosen heart-rate time
+VITALS_PAIR_WINDOW = "1h"                  # around the chosen heart rate
 
 # ------------------------------------------------------------------ fields
 LAB_FIELDS = {
@@ -63,11 +63,11 @@ BP_ITEMIDS = {"nibp": {"sbp": 220179, "dbp": 220180, "map": 220181},
               "art": {"sbp": 220050, "dbp": 220051, "map": 220052}}
 OTHER_VITAL_ITEMIDS = {"resp_rate": [220210, 224690], "spo2": [220277], "temperature": [223762, 223761]}
 TEMP_F_ITEMID = 223761
-WEIGHT_ITEMIDS = [224639, 226512]           # daily weight, admission weight (kg)
+WEIGHT_ITEMIDS = [224639, 226512]           # daily, admission weight (kg)
 OMR_BP, OMR_WEIGHT_LBS = "Blood Pressure", "Weight (Lbs)"
 
 DOSE_FIELDS = {
-    # pattern on prescriptions.drug, required route (or None), daily-dose plausible range
+    # regex on prescriptions.drug, route filter
     "heparin_sc":  dict(label="Heparin (SC) daily dose",    unit="units/day", pattern=r"^heparin$", route="SC", dec=0, edc=(2500, 22500), alt=None),
     "metoprolol":  dict(label="Metoprolol daily dose",      unit="mg/day", pattern=r"^metoprolol tartrate$", route=None, dec=2, edc=(1.25, 450), alt=(0.001, 4)),
     "furosemide":  dict(label="Furosemide daily dose",      unit="mg/day", pattern=r"^furosemide$", route=None, dec=0, edc=(5, 600), alt=(0.001, 3)),
@@ -85,7 +85,7 @@ VALUE_FIELDS = {**LAB_FIELDS, **VITAL_FIELDS, **DOSE_FIELDS}
 FIELD_MODALITY = {**{f: "lab" for f in LAB_FIELDS}, **{f: "vital" for f in VITAL_FIELDS},
                   **{f: "med" for f in DOSE_FIELDS}, **{f: "date" for f in DATE_FIELDS}}
 
-# ------------------------------------------------------------------ context only (never checked)
+# ------------------------------------------------------------------ context only
 MED_CLASSES = {
     "anti_infective": r"vancomycin|cef|ceph|penicillin|piperacillin|ampicillin|amoxicillin|nafcillin|meropenem|"
                       r"ertapenem|aztreonam|floxacin|metronidazole|clindamycin|azithromycin|doxycycline|linezolid|"
@@ -101,7 +101,7 @@ MED_CLASSES = {
     "iv_fluid": r"^(?!.*flush).*(?:sodium chloride 0\.9|0\.9% sodium chloride|lactated ringer|5% dextrose|dextrose 5%)",
 }
 
-ICD_GROUPS = {  # ICD codes without dots; prefixes by ICD version
+ICD_GROUPS = {  # code prefixes per icd version
     "infection": {9: ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13",
                       "320", "321", "322", "421", "46", "480", "481", "482", "483", "484", "485", "486", "487",
                       "488", "590", "5990", "680", "681", "682", "686", "730", "7907", "99591", "99592"],
@@ -126,15 +126,15 @@ ICD_GROUPS = {  # ICD codes without dots; prefixes by ICD version
 ERROR_TYPES = ["wrong_date", "patient_swap", "copy_previous", "unit_error", "decimal_slip", "digit_transposition"]
 ERROR_RATE = 0.02
 SENSITIVITY_RATES = (0.005, 0.05)
-N_REPLICATES = 20                          # primary analysis
-N_REPLICATES_SECONDARY = 10                # ablation and sensitivity analyses
+N_REPLICATES = 20
+N_REPLICATES_SECONDARY = 10                # ablation, sensitivity
 
 # ------------------------------------------------------------------ budgets and statistics
 BUDGETS = (0.05, 0.10, 0.25, 0.50, 1.00)   # queries per patient per visit
 PRIMARY_BUDGET = 0.25
 N_BOOTSTRAP = 2000
 N_PERMUTATIONS = 10000
-SIZE_BINS = (0.5, 2.0)                     # error size in robust SD units of the field
+SIZE_BINS = (0.5, 2.0)                     # robust sd units
 DATE_SIZE_BIN = 7                          # days
 
 # ------------------------------------------------------------------ plausibility model

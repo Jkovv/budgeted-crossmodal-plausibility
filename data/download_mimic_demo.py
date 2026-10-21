@@ -1,11 +1,10 @@
-"""Download the MIMIC-IV Clinical Database Demo v2.2 tables this project uses.
+"""Download the MIMIC-IV demo v2.2 tables used here.
 
-    python data/download_mimic_demo.py            # into data/raw/ (or $BCP_DATA_DIR/raw/)
+    python data/download_mimic_demo.py      # into data/raw/ (or $BCP_DATA_DIR/raw/)
 
-Files already present with the right SHA-256 are skipped. The checksums are the
-ones PhysioNet publishes in SHA256SUMS.txt for version 2.2. The demo is open
-access under the Open Data Commons Open Database License v1.0 (ODbL); see
-data/README.md. Nothing downloaded here is ever committed.
+Skips files that are already there with the right checksum. Checksums are from
+PhysioNet's SHA256SUMS.txt for v2.2. The demo is open data under ODbL 1.0, see
+data/README.md.
 """
 from __future__ import annotations
 
@@ -19,7 +18,7 @@ from pathlib import Path
 
 BASE_URL = "https://physionet.org/files/mimic-iv-demo/2.2/"
 
-# path relative to BASE_URL -> SHA-256 published by PhysioNet (SHA256SUMS.txt, v2.2)
+# sha256 from physionet's SHA256SUMS.txt
 FILES = {
     "hosp/admissions.csv.gz": "910b9f160ffdf1e08ea673585393f347c773ccc87d66875c627584a903ae8493",
     "hosp/d_labitems.csv.gz": "72ea5f020469fd24543bd98ab3bd0a4f645a5a4b7802d9d52af20d736f9d76db",
@@ -32,7 +31,7 @@ FILES = {
     "icu/d_items.csv.gz": "1690467a822345226a041c1149237c418aa60098c6b699fb4cef64d73588a01f",
     "icu/icustays.csv.gz": "e05e81aa52a3022e522b6832a898101a69b84e64c17bb344d819e458d5bc21b3",
 }
-EXTRA = ["LICENSE.txt", "SHA256SUMS.txt"]   # kept next to the data for reference, not checksummed
+EXTRA = ["LICENSE.txt", "SHA256SUMS.txt"]   # not checksummed
 
 
 def raw_dir() -> Path:
@@ -58,7 +57,7 @@ def fetch(rel: str, dest: Path, retries: int = 5) -> None:
                     f.write(chunk)
             tmp.replace(dest)
             return
-        except OSError as e:          # PhysioNet occasionally drops slow connections
+        except OSError as e:          # physionet drops connections now and then
             print(f"  {rel}: attempt {attempt} failed ({e})", file=sys.stderr)
             time.sleep(5 * attempt)
     raise RuntimeError(f"could not download {rel}")

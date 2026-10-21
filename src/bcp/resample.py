@@ -1,8 +1,7 @@
-"""Resample the ICU data to a clinical trial visit schedule and build the table of cells.
+"""Resample to the trial visit schedule and build the cell table.
 
-A *cell* is one recorded value of one field at one visit of one patient, or the date of
-the laboratory or vital signs form of a visit. Dates are stored as day numbers (days
-since 1970-01-01) so that every cell has a numeric value.
+A cell is one value of one field at one visit, or a form date. Dates are stored as
+day numbers since 1970-01-01.
 """
 from __future__ import annotations
 
@@ -22,7 +21,7 @@ def day_number(ts: pd.Series) -> pd.Series:
 
 
 def nominal_visits(stays: pd.DataFrame, visits=C.VISITS) -> pd.DataFrame:
-    """One row per patient and scheduled visit, with its nominal time and window."""
+    """Nominal time and window for every patient and visit."""
     rows = []
     for idx, (label, day, window) in enumerate(visits):
         t = stays.intime + pd.Timedelta(days=day)
@@ -47,7 +46,7 @@ def _in_window(events: pd.DataFrame, visits: pd.DataFrame, time_col: str) -> pd.
 
 
 def lab_form(lab: pd.DataFrame, visits: pd.DataFrame) -> pd.DataFrame:
-    """One blood draw per visit: the draw with the most analytes, then the one closest to the nominal time."""
+    """One draw per visit: most analytes, then closest to the nominal time."""
     m = _in_window(lab, visits, "charttime")
     draws = (m.groupby(["subject_id", "visit", "charttime"])
              .agg(n=("field", "nunique"), dist=("dist", "first")).reset_index()
@@ -59,7 +58,7 @@ def lab_form(lab: pd.DataFrame, visits: pd.DataFrame) -> pd.DataFrame:
 
 
 def _closest(events: pd.DataFrame, anchors: pd.DataFrame, window: pd.Timedelta, out_field: str) -> pd.DataFrame:
-    """For each anchor (subject, visit, anchor_time), the event closest in time within +/- window."""
+    """Closest event to each anchor time, within the window."""
     m = events.merge(anchors, on="subject_id")
     m["d"] = (m.charttime - m.anchor_time).abs()
     m = m[m.d <= window].sort_values("d")
@@ -69,8 +68,8 @@ def _closest(events: pd.DataFrame, anchors: pd.DataFrame, window: pd.Timedelta, 
 
 def vital_form(ce: pd.DataFrame, omr: pd.DataFrame, visits: pd.DataFrame,
                pair_window: str = C.VITALS_PAIR_WINDOW) -> pd.DataFrame:
-    """ICU vital signs around the heart-rate charting closest to the nominal time; outpatient
-    blood pressure and weight at weekly visits without ICU vital signs."""
+    """Icu vitals around the heart rate closest to the nominal time. Weekly visits without
+    icu vitals use omr blood pressure and weight."""
     win = pd.Timedelta(pair_window)
     ce = ce.assign(charttime=pd.to_datetime(ce.charttime), valuenum=ce.valuenum.astype(float))
     omr = omr.assign(chartdate=pd.to_datetime(omr.chartdate))
@@ -79,7 +78,7 @@ def vital_form(ce: pd.DataFrame, omr: pd.DataFrame, visits: pd.DataFrame,
     anchors = hr[["subject_id", "visit", "charttime"]].rename(columns={"charttime": "anchor_time"})
     parts = [hr[["subject_id", "visit", "valuenum"]].rename(columns={"valuenum": "value"}).assign(field="heart_rate")]
 
-    # blood pressure: all three components from the cuff if it was charted near the anchor, else the arterial line
+    # cuff if charted near the anchor, otherwise arterial line
     nibp = _closest(ce[ce.itemid == C.BP_ITEMIDS["nibp"]["sbp"]], anchors, win, "sbp")
     has_nibp = set(zip(nibp.subject_id, nibp.visit))
     use_nibp = np.array([(s, v) in has_nibp for s, v in zip(anchors.subject_id, anchors.visit)], bool)
@@ -91,13 +90,13 @@ def vital_form(ce: pd.DataFrame, omr: pd.DataFrame, visits: pd.DataFrame,
     icu = pd.concat(parts, ignore_index=True).merge(anchors, on=["subject_id", "visit"])
     icu = icu.rename(columns={"anchor_time": "form_time"})
 
-    # weight anywhere in the visit window
+    # weight: anywhere in the visit window
     w = _in_window(ce[ce.itemid.isin(C.WEIGHT_ITEMIDS)], visits, "charttime").sort_values("dist")
     w = w.groupby(["subject_id", "visit"], as_index=False).head(1)
     w = w[["subject_id", "visit", "valuenum"]].rename(columns={"valuenum": "value"}).assign(field="weight")
     icu_weight = w.merge(anchors.rename(columns={"anchor_time": "form_time"}), on=["subject_id", "visit"])
 
-    # outpatient records for weekly visits with no ICU vital signs
+    # omr for weekly visits without icu vitals
     weekly = visits[(visits.window_days > 1) & ~visits.set_index(["subject_id", "visit"]).index.isin(
         anchors.set_index(["subject_id", "visit"]).index)]
     o = _in_window(omr.rename(columns={"chartdate": "charttime"}), weekly, "charttime")
@@ -122,7 +121,7 @@ def vital_form(ce: pd.DataFrame, omr: pd.DataFrame, visits: pd.DataFrame,
 
 
 def dose_form(rx: pd.DataFrame, visits: pd.DataFrame) -> pd.DataFrame:
-    """Daily dose of each tracked drug from the most recently started order active at the nominal time."""
+    """Daily dose from the latest order active at the nominal time."""
     out = []
     for fld, d in C.DOSE_FIELDS.items():
         m = rx[rx.drug.str.strip().str.contains(d["pattern"], flags=re.I, regex=True, na=False) & rx.daily_dose.gt(0)]
@@ -136,7 +135,7 @@ def dose_form(rx: pd.DataFrame, visits: pd.DataFrame) -> pd.DataFrame:
 
 
 def visit_medication_classes(classes: pd.DataFrame, visits: pd.DataFrame) -> pd.DataFrame:
-    """Which medication classes have an order active at each nominal visit time (context only)."""
+    """Medication classes active at each nominal visit time."""
     m = classes.merge(visits[["subject_id", "visit", "nominal_time"]], on="subject_id")
     m = m[(m.starttime <= m.nominal_time) & (m.stoptime >= m.nominal_time)]
     act = m.drop_duplicates(["subject_id", "visit", "med_class"]).assign(on=1)
@@ -147,7 +146,7 @@ def visit_medication_classes(classes: pd.DataFrame, visits: pd.DataFrame) -> pd.
 
 
 def round_and_clean(values: pd.DataFrame, report: dict) -> pd.DataFrame:
-    """Round to the decimals a site would write and drop physiologically impossible values."""
+    """Round to recorded decimals and drop impossible values."""
     spec = C.VALUE_FIELDS
     dec = values.field.map({f: d["dec"] for f, d in spec.items()})
     values = values.assign(value=[round(v, int(k)) for v, k in zip(values.value, dec)])
