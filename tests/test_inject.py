@@ -46,3 +46,25 @@ def test_decimal_slip_directions_are_balanced():
     rng = np.random.default_rng(2)
     ups = sum(I.decimal_slip(10.0, 0, rng) == 100.0 for _ in range(4000))
     assert 1850 < ups < 2150
+
+
+@pytest.mark.parametrize("field,value,expected", [
+    ("glucose", 108, 6.0),          # mg/dL written as mmol/L
+    ("creatinine", 1.0, 88.0),      # mg/dL written as umol/L
+    ("bun", 28, 10.0),              # mg/dL written as mmol/L urea
+    ("hemoglobin", 9.8, 98.0),      # g/dL written as g/L
+    ("hematocrit", 29.5, 0.3),      # % written as a fraction
+    ("temperature", 37.0, 98.6),    # Celsius written as Fahrenheit
+    ("weight", 80.0, 176.4),        # kg written as lb
+    ("vancomycin", 2000, 2.0),      # mg written as g
+])
+def test_unit_error(field, value, expected):
+    from bcp import config as C
+    assert I.unit_error(value, C.VALUE_FIELDS[field]["alt"]) == pytest.approx(expected)
+
+
+@pytest.mark.parametrize("field", ["sodium", "potassium", "chloride", "bicarbonate", "wbc", "platelets",
+                                   "heart_rate", "sbp", "spo2", "heparin_sc"])
+def test_unit_error_not_applicable(field):
+    from bcp import config as C
+    assert I.unit_error(100.0, C.VALUE_FIELDS[field]["alt"]) is None

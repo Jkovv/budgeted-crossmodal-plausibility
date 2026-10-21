@@ -27,6 +27,16 @@ def transpose_digits(value: float, dec: int, rng: np.random.Generator) -> float 
     return new if new > 0 and new != value else None
 
 
+def unit_error(value: float, alt) -> float | None:
+    """Write the value in the field's common alternative unit. ``alt`` is (factor or "c2f", decimals)
+    from config; None means the field has no alternative unit that changes the number."""
+    if alt is None:
+        return None
+    factor, dec = alt
+    new = round(value * 9 / 5 + 32 if factor == "c2f" else value * factor, dec)
+    return new if new > 0 and new != value else None
+
+
 def decimal_slip(value: float, dec: int, rng: np.random.Generator) -> float | None:
     """Move the decimal point one place: x10 or /10 with equal probability.
 
