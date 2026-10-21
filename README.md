@@ -386,17 +386,44 @@ git clone https://github.com/Jkovv/budgeted-crossmodal-plausibility
 cd budgeted-crossmodal-plausibility
 pip install -r requirements.txt     # Python 3.11+, pinned versions
 make all                            # download, prepare, all runs, evaluate, figures, examples, notebook
+make all-quick                      # the same steps with fewer replicates, into results-quick/
 make test                           # unit tests (no data needed)
 ```
+
+Without make, for example on Windows, `./reproduce.sh` runs the same steps as
+`make all` and `./reproduce.sh --quick` the same as `make all-quick`. It needs
+bash, which comes with Git for Windows (Git Bash) or WSL.
 
 `make all` downloads the ten demo tables (about 8 MB, checked against
 PhysioNet's SHA-256 sums) and runs `python -m bcp.cli` with the steps
 `prepare`, `primary`, `ablation`, `sensitivity`, `evaluate`, `figures` and
 `explain`, then executes `notebooks/walkthrough.ipynb`. On a 12-core laptop
 with three worker processes (`WORKERS=3`) the runs take about 27 minutes
-(primary 6, ablation 16, sensitivity 6) and the evaluation about 4. Results are
-deterministic for the seeds in `src/bcp/config.py`. Set `BCP_DATA_DIR` to keep
-the data outside the repository.
+(primary 6, ablation 16, sensitivity 6) and the evaluation about 4. `WORKERS`
+defaults to the number of cores divided by four, because every model fit uses
+four threads; more workers than that oversubscribes the cores and makes the run
+many times slower. Results are deterministic for the seeds in
+`src/bcp/config.py`. Set `BCP_DATA_DIR` to keep the data outside the
+repository. PhysioNet can be slow: the download resumes interrupted files and
+fetches again any file whose checksum does not match.
+
+`make all-quick` (or `BCP_QUICK=1` with any step) uses 2 replicates for the
+primary analysis, 1 for the ablation and the sensitivity analyses, 200
+bootstrap resamples and 1,000 permutations, and writes to `results-quick/`, so
+the committed results are left alone. It runs in about 7 minutes on the same
+laptop. Its numbers check that the pipeline works; they are not the
+results reported here.
+
+**What CI runs.** On every push and pull request, the `pipeline` workflow runs
+`make all-quick` on Ubuntu, download included, and fails if any step fails,
+including any cell of the notebook. That takes about 13 minutes, most of it the
+download. The full `make all` takes about an hour on a GitHub-hosted runner
+(58 minutes on 21 October 2026, 16 of them the download), so it runs only when
+started by hand (Actions, pipeline, Run workflow, tick "full"); that job also
+lists the committed files its results differ from. On that run every number in
+the tables and in `results/summary.json` matched the committed results
+exactly; the figures differ only in the font. The `tests` workflow runs the
+unit tests.
 
 ```
 data/        download script and data documentation (no data is committed)
@@ -408,7 +435,10 @@ notebooks/   walkthrough.ipynb, executed
 results/     figures/, tables/ and summary.json (aggregates only; row-level
              outputs go to results/cells/ and are not committed)
 tests/       resampling, error injection, detectors, statistics (budget counts,
-             bootstrap, conformal p-values, Benjamini-Hochberg) and evaluation
+             bootstrap, conformal p-values, Benjamini-Hochberg), evaluation
+             and the download retries
+.github/     workflows: unit tests, and the pipeline (quick on push, full by hand)
+reproduce.sh the pipeline without make
 ```
 
 ## Limitations
