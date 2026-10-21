@@ -37,7 +37,11 @@ def size_labels(test: pd.DataFrame, clean: pd.DataFrame, train_ids) -> np.ndarra
     lab[err & is_date & (days <= C.DATE_SIZE_BIN)] = f"date <= {C.DATE_SIZE_BIN} days"
     lab[err & is_date & (days > C.DATE_SIZE_BIN)] = f"date > {C.DATE_SIZE_BIN} days"
     tr = clean[clean.subject_id.isin(train_ids) & clean.modality.ne("date")]
-    sd = {f: robust_sd(model_scale(f, g.value)) for f, g in tr.groupby("field")}
+    sd = {}
+    for f, g in tr.groupby("field"):
+        y = model_scale(f, g.value)
+        s = robust_sd(y)
+        sd[f] = s if s > 0 else (float(np.std(y)) or 1.0)      # some doses barely vary in training
     lo, hi = C.SIZE_BINS
     for f in test.field[err & ~is_date].unique():
         m = err & ~is_date & (test.field == f).to_numpy()
