@@ -297,6 +297,42 @@ Fixed seeds for the split, every replicate's injection, the pseudo-sites, the
 bootstrap and the permutation test. Pinned dependencies. `make all` reruns
 everything from the raw files.
 
+## Implementation details (fixed with the code, before any result was computed)
+
+One replicate was run end to end to time the pipeline (about 25 seconds); no
+detection metric was computed from it.
+
+* **Cohort.** 99 of the 100 patients have at least one cell; the split is drawn
+  over all 100, so the held-out set has 49 patients with data.
+* **Resampling.** Other ICU vital signs within +/- 1 hour of the chosen heart
+  rate; weight anywhere in the visit window. Doses: the most recently started
+  order active at the nominal time; heparin restricted to route SC and
+  vancomycin to route IV.
+* **Recorded decimals** as in `config.py`; metoprolol doses with two decimals
+  (6.25 mg), grams in unit errors with three or four.
+* **Error injection.** Types are drawn in the order wrong date, patient swap,
+  copy, unit error, decimal slip, transposition, each from the cells still
+  untouched. A swap share of k cells gives floor(k / 2) pairs. A copied value is
+  the clean value of the previous visit. A decimal slip divided by ten keeps one
+  more decimal (98 becomes 9.8).
+* **Ranking.** Ties are broken by a random order seeded per replicate and
+  detector. Range rules can only query cells that violate a rule. The delta
+  check scores only cells with a previous value. The combined detector ranks
+  every range violation above every other cell.
+* **Bootstrap.** The same 2,000 patient resamples are used for every detector
+  and replicate, so differences are paired. A resampled patient's cells count
+  with their multiplicity; when the budget ends inside a duplicated cell, that
+  cell counts fractionally.
+* **Conformal analysis.** Cells a detector does not score get p = 1. The
+  combined detector's calibration score combines the range rules with the
+  model's out-of-fold score.
+* **Index of individuality** on the modelling scale. Detectability uses the
+  model's final score (after explaining away), pooled over the 20 primary
+  replicates; the own-history-only AUROC is pooled over the 10 ablation
+  replicates.
+* **Error size** is measured on the modelling scale against the robust SD of
+  the field in training patients before injection.
+
 ## Deviations
 
 None yet.
