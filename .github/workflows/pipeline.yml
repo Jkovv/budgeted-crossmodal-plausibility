@@ -1,0 +1,52 @@
+name: pipeline
+
+# Downloads the MIMIC-IV demo and runs every step. Pushes and pull requests run
+# make all-quick; the full make all is started by hand from the Actions tab
+# (run workflow, tick "full"), as it takes a few hours on a hosted runner.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      full:
+        description: run make all instead of make all-quick
+        type: boolean
+        default: false
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+
+      - name: make all-quick
+        if: ${{ !inputs.full }}
+        run: make all-quick WORKERS=2
+      - uses: actions/upload-artifact@v4
+        if: ${{ !inputs.full && !cancelled() }}
+        with:
+          name: results-quick
+          path: |
+            results-quick
+            !results-quick/cells
+
+      - name: make all
+        if: ${{ inputs.full }}
+        run: make all WORKERS=2
+      - name: compare with the committed results
+        if: ${{ inputs.full }}
+        run: git diff --stat -- results notebooks
+      - uses: actions/upload-artifact@v4
+        if: ${{ inputs.full && !cancelled() }}
+        with:
+          name: results
+          path: |
+            results
+            notebooks/walkthrough.ipynb
+            !results/cells
