@@ -1,0 +1,68 @@
+{
+  "artefacts_removed": {
+    "heart_rate": 1,
+    "resp_rate": 2,
+    "temperature": 1
+  },
+  "patients": 99,
+  "patient_visits": 621,
+  "cells": 11007,
+  "cells_by_modality": {
+    "lab": 6832,
+    "vital": 2365,
+    "med": 916,
+    "date": 894
+  },
+  "cells_by_field": {
+    "lab_date": 527,
+    "chloride": 511,
+    "sodium": 511,
+    "potassium": 510,
+    "creatinine": 506,
+    "bun": 506,
+    "bicarbonate": 497,
+    "hematocrit": 496,
+    "glucose": 490,
+    "platelets": 489,
+    "hemoglobin": 489,
+    "wbc": 487,
+    "magnesium": 483,
+    "phosphate": 430,
+    "calcium": 427,
+    "vital_date": 367,
+    "dbp": 347,
+    "sbp": 347,
+    "heart_rate": 326,
+    "resp_rate": 325,
+    "spo2": 317,
+    "map": 313,
+    "heparin_sc": 287,
+    "temperature": 216,
+    "weight": 174,
+    "metoprolol": 160,
+    "furosemide": 142,
+    "aspirin": 116,
+    "famotidine": 109,
+    "vancomycin": 102
+  },
+  "patient_visits_by_visit": {
+    "D1": 99,
+    "D2": 98,
+    "D3": 90,
+    "D4": 80,
+    "D5": 68,
+    "D6": 50,
+    "D7": 45,
+    "W2": 42,
+    "W3": 30,
+    "W4": 19
+  },
+  "split": {
+    "test": 50,
+    "train": 50
+  },
+  "patients_with_cells": {
+    "train": 50,
+    "test": 49
+  }
+}

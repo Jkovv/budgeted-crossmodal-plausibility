@@ -1,0 +1,332 @@
+[
+  {
+    "analysis": "ablation_raw",
+    "wrong_date": {
+      "planned": 37,
+      "injected": 37
+    },
+    "patient_swap": {
+      "planned": 37,
+      "injected": 36
+    },
+    "copy_previous": {
+      "planned": 37,
+      "injected": 37
+    },
+    "unit_error": {
+      "planned": 37,
+      "injected": 37
+    },
+    "decimal_slip": {
+      "planned": 36,
+      "injected": 36
+    },
+    "digit_transposition": {
+      "planned": 36,
+      "injected": 36
+    },
+    "rep": 0,
+    "rate": 0.02,
+    "seconds": 252.3,
+    "n_test_cells": 5422,
+    "n_test_errors": 103,
+    "n_calibration_cells": 3635
+  },
+  {
+    "analysis": "ablation_raw",
+    "wrong_date": {
+      "planned": 37,
+      "injected": 37
+    },
+    "patient_swap": {
+      "planned": 37,
+      "injected": 36
+    },
+    "copy_previous": {
+      "planned": 37,
+      "injected": 37
+    },
+    "unit_error": {
+      "planned": 37,
+      "injected": 37
+    },
+    "decimal_slip": {
+      "planned": 36,
+      "injected": 36
+    },
+    "digit_transposition": {
+      "planned": 36,
+      "injected": 36
+    },
+    "rep": 1,
+    "rate": 0.02,
+    "seconds": 281.9,
+    "n_test_cells": 5422,
+    "n_test_errors": 103,
+    "n_calibration_cells": 3698
+  },
+  {
+    "analysis": "ablation_raw",
+    "wrong_date": {
+      "planned": 37,
+      "injected": 37
+    },
+    "patient_swap": {
+      "planned": 37,
+      "injected": 36
+    },
+    "copy_previous": {
+      "planned": 37,
+      "injected": 37
+    },
+    "unit_error": {
+      "planned": 37,
+      "injected": 37
+    },
+    "decimal_slip": {
+      "planned": 36,
+      "injected": 36
+    },
+    "digit_transposition": {
+      "planned": 36,
+      "injected": 36
+    },
+    "rep": 2,
+    "rate": 0.02,
+    "seconds": 290.4,
+    "n_test_cells": 5422,
+    "n_test_errors": 107,
+    "n_calibration_cells": 3687
+  },
+  {
+    "analysis": "ablation_raw",
+    "wrong_date": {
+      "planned": 37,
+      "injected": 37
+    },
+    "patient_swap": {
+      "planned": 37,
+      "injected": 36
+    },
+    "copy_previous": {
+      "planned": 37,
+      "injected": 37
+    },
+    "unit_error": {
+      "planned": 37,
+      "injected": 37
+    },
+    "decimal_slip": {
+      "planned": 36,
+      "injected": 36
+    },
+    "digit_transposition": {
+      "planned": 36,
+      "injected": 36
+    },
+    "rep": 3,
+    "rate": 0.02,
+    "seconds": 270.1,
+    "n_test_cells": 5422,
+    "n_test_errors": 104,
+    "n_calibration_cells": 3458
+  },
+  {
+    "analysis": "ablation_raw",
+    "wrong_date": {
+      "planned": 37,
+      "injected": 37
+    },
+    "patient_swap": {
+      "planned": 37,
+      "injected": 36
+    },
+    "copy_previous": {
+      "planned": 37,
+      "injected": 37
+    },
+    "unit_error": {
+      "planned": 37,
+      "injected": 37
+    },
+    "decimal_slip": {
+      "planned": 36,
+      "injected": 36
+    },
+    "digit_transposition": {
+      "planned": 36,
+      "injected": 36
+    },
+    "rep": 4,
+    "rate": 0.02,
+    "seconds": 292.6,
+    "n_test_cells": 5422,
+    "n_test_errors": 113,
+    "n_calibration_cells": 3810
+  },
+  {
+    "analysis": "ablation_raw",
+    "wrong_date": {
+      "planned": 37,
+      "injected": 37
+    },
+    "patient_swap": {
+      "planned": 37,
+      "injected": 36
+    },
+    "copy_previous": {
+      "planned": 37,
+      "injected": 37
+    },
+    "unit_error": {
+      "planned": 37,
+      "injected": 37
+    },
+    "decimal_slip": {
+      "planned": 36,
+      "injected": 36
+    },
+    "digit_transposition": {
+      "planned": 36,
+      "injected": 36
+    },
+    "rep": 5,
+    "rate": 0.02,
+    "seconds": 272.0,
+    "n_test_cells": 5422,
+    "n_test_errors": 98,
+    "n_calibration_cells": 3470
+  },
+  {
+    "analysis": "ablation_raw",
+    "wrong_date": {
+      "planned": 37,
+      "injected": 37
+    },
+    "patient_swap": {
+      "planned": 37,
+      "injected": 36
+    },
+    "copy_previous": {
+      "planned": 37,
+      "injected": 37
+    },
+    "unit_error": {
+      "planned": 37,
+      "injected": 37
+    },
+    "decimal_slip": {
+      "planned": 36,
+      "injected": 36
+    },
+    "digit_transposition": {
+      "planned": 36,
+      "injected": 36
+    },
+    "rep": 6,
+    "rate": 0.02,
+    "seconds": 261.5,
+    "n_test_cells": 5422,
+    "n_test_errors": 106,
+    "n_calibration_cells": 3742
+  },
+  {
+    "analysis": "ablation_raw",
+    "wrong_date": {
+      "planned": 37,
+      "injected": 37
+    },
+    "patient_swap": {
+      "planned": 37,
+      "injected": 36
+    },
+    "copy_previous": {
+      "planned": 37,
+      "injected": 37
+    },
+    "unit_error": {
+      "planned": 37,
+      "injected": 37
+    },
+    "decimal_slip": {
+      "planned": 36,
+      "injected": 36
+    },
+    "digit_transposition": {
+      "planned": 36,
+      "injected": 36
+    },
+    "rep": 7,
+    "rate": 0.02,
+    "seconds": 263.7,
+    "n_test_cells": 5422,
+    "n_test_errors": 110,
+    "n_calibration_cells": 3549
+  },
+  {
+    "analysis": "ablation_raw",
+    "wrong_date": {
+      "planned": 37,
+      "injected": 37
+    },
+    "patient_swap": {
+      "planned": 37,
+      "injected": 36
+    },
+    "copy_previous": {
+      "planned": 37,
+      "injected": 37
+    },
+    "unit_error": {
+      "planned": 37,
+      "injected": 37
+    },
+    "decimal_slip": {
+      "planned": 36,
+      "injected": 36
+    },
+    "digit_transposition": {
+      "planned": 36,
+      "injected": 36
+    },
+    "rep": 8,
+    "rate": 0.02,
+    "seconds": 256.6,
+    "n_test_cells": 5422,
+    "n_test_errors": 117,
+    "n_calibration_cells": 3888
+  },
+  {
+    "analysis": "ablation_raw",
+    "wrong_date": {
+      "planned": 37,
+      "injected": 37
+    },
+    "patient_swap": {
+      "planned": 37,
+      "injected": 36
+    },
+    "copy_previous": {
+      "planned": 37,
+      "injected": 37
+    },
+    "unit_error": {
+      "planned": 37,
+      "injected": 37
+    },
+    "decimal_slip": {
+      "planned": 36,
+      "injected": 36
+    },
+    "digit_transposition": {
+      "planned": 36,
+      "injected": 36
+    },
+    "rep": 9,
+    "rate": 0.02,
+    "seconds": 178.4,
+    "n_test_cells": 5422,
+    "n_test_errors": 110,
+    "n_calibration_cells": 3771
+  }
+]
