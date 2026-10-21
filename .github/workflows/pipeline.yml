@@ -27,7 +27,7 @@ jobs:
 
       - name: make all-quick
         if: ${{ !inputs.full }}
-        run: make all-quick WORKERS=2
+        run: make all-quick
       - uses: actions/upload-artifact@v4
         if: ${{ !inputs.full && !cancelled() }}
         with:
@@ -38,7 +38,7 @@ jobs:
 
       - name: make all
         if: ${{ inputs.full }}
-        run: make all WORKERS=2
+        run: make all
       - name: compare with the committed results
         if: ${{ inputs.full }}
         run: git diff --stat -- results notebooks
