@@ -166,7 +166,15 @@ def pseudo_sites(patients) -> dict:
 
 
 def conformal_analysis(setup: Setup, reps, detectors=DETECTORS) -> pd.DataFrame:
+    """Benjamini-Hochberg on conformal p-values within each pseudo-site.
+
+    Intervals are the 2.5 and 97.5 percentiles over replicates. The patient bootstrap is not used
+    here: duplicated patients bring duplicated p-values, and BH then rejects more than it would on
+    real data, so resampled counts are biased upward.
+    """
     site_of = pseudo_sites(setup.patients)
+    ones = np.ones((1, len(setup.patients)))
+    V = float(setup.visits_per_patient.sum())
     per = {(d, a): [] for d in detectors for a in C.FDR_TARGETS}
     for rep, test, calib in reps:
         err = test.error_type.notna().to_numpy()
@@ -176,26 +184,24 @@ def conformal_analysis(setup: Setup, reps, detectors=DETECTORS) -> pd.DataFrame:
             first = f"{d}_first" if f"{d}_first" in test else d          # same score as the calibration set
             p = S.conformal_pvalues(calib[d].to_numpy(float), test[first].to_numpy(float))
             for a in C.FDR_TARGETS:
-                raised = np.zeros(len(setup.W)); tp = np.zeros(len(setup.W))
+                raised = tp = 0.0
                 site_fdp = []
                 for k in range(C.N_SITES):
                     m = site == k
-                    r = S.bh_counts(p[m], {"err": err[m]}, a, setup.W[:, patient[m]])
-                    raised += r["raised"]; tp += r["tp_err"]
-                    with np.errstate(invalid="ignore", divide="ignore"):
-                        site_fdp.append(np.where(r["raised"] > 0, 1 - r["tp_err"] / r["raised"], 0.0))
-                V = setup.W @ setup.visits_per_patient
-                with np.errstate(invalid="ignore", divide="ignore"):
-                    per[(d, a)].append({"queries_raised": raised, "queries_per_patient_visit": raised / V,
-                                        "errors_caught": tp, "false_query_rate": np.where(raised > 0, 1 - tp / raised, 0.0),
-                                        "mean_site_false_query_rate": np.mean(site_fdp, axis=0),
-                                        "recall": tp / (setup.W[:, patient] * err).sum(axis=1)})
+                    r = S.bh_counts(p[m], {"err": err[m]}, a, ones[:, patient[m]])
+                    raised += r["raised"][0]
+                    tp += r["tp_err"][0]
+                    site_fdp.append(1 - r["tp_err"][0] / r["raised"][0] if r["raised"][0] > 0 else 0.0)
+                per[(d, a)].append({"queries_raised": raised, "queries_per_patient_visit": raised / V,
+                                    "errors_caught": tp, "false_query_rate": 1 - tp / raised if raised > 0 else 0.0,
+                                    "mean_site_false_query_rate": float(np.mean(site_fdp)),
+                                    "recall": tp / err.sum()})
     rows = []
     for (d, a), lst in per.items():
         for k in lst[0]:
-            arr = np.nanmean(np.stack([x[k] for x in lst]), axis=0)
-            lo, hi = S.percentile_ci(arr[1:])
-            rows.append(dict(detector=d, target=a, metric=k, estimate=arr[0], lo=lo, hi=hi))
+            vals = np.array([x[k] for x in lst])
+            rows.append(dict(detector=d, target=a, metric=k, estimate=vals.mean(),
+                             lo=np.quantile(vals, 0.025), hi=np.quantile(vals, 0.975)))
     return pd.DataFrame(rows)
 
 
@@ -228,7 +234,11 @@ def individuality_analysis(data: dict, split: pd.Series, reps_primary, reps_abla
     tab["gain_over_own_history"] = tab.auroc_full - tab.auroc_own_history_only
     tab["in_test"] = tab.field.isin(use.field)
     tab["changed_by_cross_modal_context"] = tab.in_test & (tab.gain_over_own_history >= C.II_GAIN) & (tab.above_line > 0)
+    every = tab[tab.auroc_full.notna() & tab.index_of_individuality.notna()]
+    rho_all, p_all = S.spearman_permutation(every.index_of_individuality, every.auroc_full, C.N_PERMUTATIONS,
+                                            np.random.default_rng(C.SEED + 4), alternative="less")
     res = dict(spearman_rho=rho, p_one_sided=p, n_fields=int(len(use)), hypothesis_holds=bool(rho < 0 and p < 0.05),
+               exploratory_all_fields=dict(spearman_rho=rho_all, p_one_sided=p_all, n_fields=int(len(every))),
                line_slope=float(slope), line_intercept=float(intercept),
                changed_by_cross_modal_context=tab.field[tab.changed_by_cross_modal_context].tolist())
     return tab, res
