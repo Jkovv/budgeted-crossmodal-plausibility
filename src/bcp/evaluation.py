@@ -105,7 +105,7 @@ def metric_draws(counts: dict, masks) -> dict[str, np.ndarray]:
 
 
 def average_over_replicates(per_rep: list[dict]) -> dict[str, np.ndarray]:
-    keys = set().union(*per_rep)
+    keys = dict.fromkeys(k for d in per_rep for k in d)     # first-seen order, not hash order
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", RuntimeWarning)       # precision is NaN when nothing is raised
         return {k: np.nanmean(np.stack([d[k] for d in per_rep if k in d]), axis=0) for k in keys}
