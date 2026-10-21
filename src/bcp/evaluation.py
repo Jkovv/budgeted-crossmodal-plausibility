@@ -206,6 +206,12 @@ def conformal_analysis(setup: Setup, reps, detectors=DETECTORS) -> pd.DataFrame:
 
 
 # index of individuality
+def rank_test(x, y, seed: int) -> tuple[float, float]:
+    if len(x) < 3:
+        return np.nan, np.nan
+    return S.spearman_permutation(x, y, C.N_PERMUTATIONS, np.random.default_rng(seed), alternative="less")
+
+
 def individuality_analysis(data: dict, split: pd.Series, reps_primary, reps_ablation) -> tuple[pd.DataFrame, dict]:
     cells = data["cells"]
     train = cells[cells.subject_id.map(split).eq("train")]
@@ -225,18 +231,17 @@ def individuality_analysis(data: dict, split: pd.Series, reps_primary, reps_abla
         rows.append(row)
     tab = pd.DataFrame(rows)
     use = tab[(tab.n_swapped_full >= C.II_MIN_SWAPS) & tab.index_of_individuality.notna()]
-    rho, p = S.spearman_permutation(use.index_of_individuality, use.auroc_full, C.N_PERMUTATIONS,
-                                    np.random.default_rng(C.SEED + 3), alternative="less")
+    rho, p = rank_test(use.index_of_individuality, use.auroc_full, C.SEED + 3)
     ok = use.auroc_own_history_only.notna()
-    slope, intercept = np.polyfit(use.index_of_individuality[ok], use.auroc_own_history_only[ok], 1)
+    slope, intercept = (np.polyfit(use.index_of_individuality[ok], use.auroc_own_history_only[ok], 1)
+                        if ok.sum() >= 2 else (np.nan, np.nan))     # a quick run may have too few swaps
     tab["line_from_own_history"] = intercept + slope * tab.index_of_individuality
     tab["above_line"] = tab.auroc_full - tab.line_from_own_history
     tab["gain_over_own_history"] = tab.auroc_full - tab.auroc_own_history_only
     tab["in_test"] = tab.field.isin(use.field)
     tab["changed_by_cross_modal_context"] = tab.in_test & (tab.gain_over_own_history >= C.II_GAIN) & (tab.above_line > 0)
     every = tab[tab.auroc_full.notna() & tab.index_of_individuality.notna()]
-    rho_all, p_all = S.spearman_permutation(every.index_of_individuality, every.auroc_full, C.N_PERMUTATIONS,
-                                            np.random.default_rng(C.SEED + 4), alternative="less")
+    rho_all, p_all = rank_test(every.index_of_individuality, every.auroc_full, C.SEED + 4)
     res = dict(spearman_rho=rho, p_one_sided=p, n_fields=int(len(use)), hypothesis_holds=bool(rho < 0 and p < 0.05),
                exploratory_all_fields=dict(spearman_rho=rho_all, p_one_sided=p_all, n_fields=int(len(every))),
                line_slope=float(slope), line_intercept=float(intercept),
