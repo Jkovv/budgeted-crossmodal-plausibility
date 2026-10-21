@@ -22,15 +22,15 @@ CELLS_DIR = RESULTS_DIR / "cells"          # row-level outputs, not committed
 
 SEED = 20261021
 
-# ------------------------------------------------------------------ split
+# split
 N_TRAIN = 50                               # rest are held out
 
-# ------------------------------------------------------------------ visit schedule
+# visit schedule
 # label, day after icu admission, window
 VISITS = [(f"D{k}", k, "12h") for k in range(1, 8)] + [(f"W{w}", 7 * w, "3d") for w in (2, 3, 4)]
 VITALS_PAIR_WINDOW = "1h"                  # around the chosen heart rate
 
-# ------------------------------------------------------------------ fields
+# fields
 LAB_FIELDS = {
     "sodium":      dict(itemid=50983, label="Sodium",          unit="mmol/L", dec=0, tf="lin", edc=(115, 165), hard=(80, 200),   alt=None),
     "potassium":   dict(itemid=50971, label="Potassium",       unit="mmol/L", dec=1, tf="lin", edc=(2.5, 7.0), hard=(0.5, 15),   alt=None),
@@ -85,7 +85,7 @@ VALUE_FIELDS = {**LAB_FIELDS, **VITAL_FIELDS, **DOSE_FIELDS}
 FIELD_MODALITY = {**{f: "lab" for f in LAB_FIELDS}, **{f: "vital" for f in VITAL_FIELDS},
                   **{f: "med" for f in DOSE_FIELDS}, **{f: "date" for f in DATE_FIELDS}}
 
-# ------------------------------------------------------------------ context only
+# context only
 MED_CLASSES = {
     "anti_infective": r"vancomycin|cef|ceph|penicillin|piperacillin|ampicillin|amoxicillin|nafcillin|meropenem|"
                       r"ertapenem|aztreonam|floxacin|metronidazole|clindamycin|azithromycin|doxycycline|linezolid|"
@@ -122,14 +122,14 @@ ICD_GROUPS = {  # code prefixes per icd version
     "coagulopathy": {9: ["286", "2871", "2873", "2874", "2875"], 10: ["D65", "D66", "D67", "D68", "D69"]},
 }
 
-# ------------------------------------------------------------------ error injection
+# error injection
 ERROR_TYPES = ["wrong_date", "patient_swap", "copy_previous", "unit_error", "decimal_slip", "digit_transposition"]
 ERROR_RATE = 0.02
 SENSITIVITY_RATES = (0.005, 0.05)
 N_REPLICATES = 20
 N_REPLICATES_SECONDARY = 10                # ablation, sensitivity
 
-# ------------------------------------------------------------------ budgets and statistics
+# budgets and statistics
 BUDGETS = (0.05, 0.10, 0.25, 0.50, 1.00)   # queries per patient per visit
 PRIMARY_BUDGET = 0.25
 N_BOOTSTRAP = 2000
@@ -137,7 +137,7 @@ N_PERMUTATIONS = 10000
 SIZE_BINS = (0.5, 2.0)                     # robust sd units
 DATE_SIZE_BIN = 7                          # days
 
-# ------------------------------------------------------------------ plausibility model
+# plausibility model
 N_FOLDS = 5
 Z_CONFIRM = 4.0
 MAX_ROUNDS = 30
@@ -149,7 +149,7 @@ SIGMA_PARAMS = dict(objective="l1", n_estimators=150, learning_rate=0.05, num_le
                     subsample=0.8, subsample_freq=1, colsample_bytree=0.8, verbose=-1, n_jobs=4)
 ABLATIONS = ["cross_modal_only", "own_history_only", "no_labs", "no_vitals", "no_meds", "no_dates", "no_baseline"]
 
-# ------------------------------------------------------------------ secondary analyses
+# secondary analyses
 N_SITES = 5
 FDR_TARGETS = (0.10, 0.20)
 II_MIN_VISITS = 3

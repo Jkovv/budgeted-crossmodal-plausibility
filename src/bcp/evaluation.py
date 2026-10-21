@@ -27,7 +27,7 @@ def load(analysis: str, reps) -> list[tuple[int, pd.DataFrame, pd.DataFrame]]:
     return out
 
 
-# ------------------------------------------------------------------ masks
+# masks
 def size_labels(test: pd.DataFrame, clean: pd.DataFrame, train_ids) -> np.ndarray:
     """Error size bin of every injected error (robust sd units on the model scale; dates in days)."""
     lab = np.full(len(test), None, dtype=object)
@@ -67,7 +67,7 @@ def queryable(test: pd.DataFrame, det: str) -> np.ndarray:
     return s
 
 
-# ------------------------------------------------------------------ budgets
+# budgets
 class Setup:
     """Held-out patients, their patient-visits and the shared bootstrap resamples."""
 
@@ -138,7 +138,7 @@ def budget_analysis(setup: Setup, reps, detectors=DETECTORS, reference="rules") 
     return pd.DataFrame(rows), avg
 
 
-# ------------------------------------------------------------------ ablation
+# ablation
 def ablation_analysis(setup: Setup, reps, variants) -> pd.DataFrame:
     cols = [f"model_{v}" for v in variants]
     per = {c: [] for c in cols}
@@ -159,7 +159,7 @@ def ablation_analysis(setup: Setup, reps, variants) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-# ------------------------------------------------------------------ conformal false-query control
+# conformal false-query control
 def pseudo_sites(patients) -> dict:
     order = np.random.default_rng(C.SEED + 2).permutation(len(patients))
     return {p: int(k % C.N_SITES) for p, k in zip(np.asarray(patients)[order], range(len(patients)))}
@@ -199,7 +199,7 @@ def conformal_analysis(setup: Setup, reps, detectors=DETECTORS) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-# ------------------------------------------------------------------ index of individuality
+# index of individuality
 def individuality_analysis(data: dict, split: pd.Series, reps_primary, reps_ablation) -> tuple[pd.DataFrame, dict]:
     cells = data["cells"]
     train = cells[cells.subject_id.map(split).eq("train")]
