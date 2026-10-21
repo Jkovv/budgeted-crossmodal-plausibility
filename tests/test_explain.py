@@ -44,3 +44,9 @@ def test_model_query_mentions_the_range_when_it_is_broken():
 @pytest.mark.parametrize("n,expected", [(1, "1 day"), (2, "2 days"), (0, "0 days")])
 def test_days(n, expected):
     assert X._days(n) == expected
+
+
+def test_labels_keep_acronyms_mid_sentence():
+    assert X.value_phrase("dbp", 77) == "diastolic BP 77 mmHg"
+    assert X.value_phrase("spo2", 93) == "SpO2 93 %"
+    assert X.value_phrase("vancomycin", 2000) == "vancomycin (IV) daily dose 2,000 mg/day"

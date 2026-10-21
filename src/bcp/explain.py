@@ -35,10 +35,15 @@ def _days(n: int) -> str:
     return f"{n} day" if n == 1 else f"{n} days"
 
 
+def mid_sentence(label: str) -> str:
+    """Lower-case a label for use inside a sentence, keeping acronyms (BP, SpO2, IV, SC)."""
+    return " ".join(w if any(c.isupper() for c in w[1:]) or w.strip("()").isupper() else w.lower()
+                    for w in label.split())
+
+
 def value_phrase(field: str, v: float) -> str:
     d = C.VALUE_FIELDS[field]
-    name = d["label"] if d["label"] == "SpO2" else d["label"].lower()
-    return f"{name} {fmt(field, v)} {d['unit']}"
+    return f"{mid_sentence(d['label'])} {fmt(field, v)} {d['unit']}"
 
 
 def date_str(day_number: float) -> str:
@@ -79,6 +84,10 @@ def model_evidence(frow: pd.Series, contrib: pd.Series, sign: float, sigma: floa
     strongest same-visit context (TreeSHAP contribution of at least 0.25 robust SD)."""
     f = frow.field
     ev = []
+    if f in C.DATE_FIELDS:
+        off = int(frow.y)
+        if off:
+            ev.append(f"{_days(abs(off))} {'after' if off > 0 else 'before'} the scheduled date")
     for col, when in (("own_prev", "earlier"), ("own_next", "later")):
         y = frow[col]
         days = frow["own_dt_prev" if col == "own_prev" else "own_dt_next"]
