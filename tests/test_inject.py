@@ -111,3 +111,36 @@ def test_wrong_date_is_always_a_different_valid_date():
         assert new != n
         mechs.add(mech)
     assert mechs == {"day_month_exchanged", "day_digits_exchanged", "month_off_by_one", "year_off_by_one"}
+
+
+def _cells():
+    import pandas as pd
+    rows = []
+    for s, vals in {1: [140, 141, 141], 2: [135, 150, 138], 3: [139, 139, 145], 4: [130, 132, 128]}.items():
+        for v_idx, v in enumerate(vals):
+            rows.append(dict(subject_id=s, visit=f"D{v_idx + 1}", visit_idx=v_idx, field="sodium", value=float(v)))
+    return pd.DataFrame(rows)
+
+
+def test_previous_values_follow_visit_order():
+    c = _cells().sample(frac=1, random_state=0)
+    prev = I.previous_values(c)
+    s1 = c[c.subject_id == 1].sort_values("visit_idx")
+    assert prev[s1.index].tolist()[1:] == [140.0, 141.0]
+    assert np.isnan(prev[s1.index[0]])
+
+
+def test_swap_pairs_respect_field_visit_split_and_values():
+    import pandas as pd
+    c = _cells()
+    group = pd.Series({1: "train", 2: "train", 3: "test", 4: "test"})
+    pairs = I.swap_pairs(c, group, np.ones(len(c), bool), 10, np.random.default_rng(0))
+    assert pairs
+    seen = set()
+    for a, b in pairs:
+        ra, rb = c.loc[a], c.loc[b]
+        assert ra.field == rb.field and ra.visit == rb.visit
+        assert group[ra.subject_id] == group[rb.subject_id] and ra.subject_id != rb.subject_id
+        assert ra.value != rb.value
+        assert not ({a, b} & seen)
+        seen |= {a, b}

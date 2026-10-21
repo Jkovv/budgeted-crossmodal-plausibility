@@ -8,6 +8,7 @@ from __future__ import annotations
 import datetime as dt
 
 import numpy as np
+import pandas as pd
 
 EPOCH = dt.date(1970, 1, 1)
 
@@ -77,3 +78,31 @@ def decimal_slip(value: float, dec: int, rng: np.random.Generator) -> float | No
     up = bool(rng.integers(2))
     new = round(value * 10, max(dec - 1, 0)) if up else round(value / 10, dec + 1)
     return new if new > 0 and new != value else None
+
+
+def previous_values(cells: pd.DataFrame) -> pd.Series:
+    """Same field at the patient's previous recorded visit (NaN if none)."""
+    c = cells.sort_values(["subject_id", "field", "visit_idx"])
+    return c.groupby(["subject_id", "field"]).value.shift(1).reindex(cells.index)
+
+
+def swap_pairs(cells: pd.DataFrame, group: pd.Series, eligible: np.ndarray, n_pairs: int,
+               rng: np.random.Generator) -> list[tuple[int, int]]:
+    """Pairs of cells to swap: same field and visit, same split, different patients, different values."""
+    pool = cells[eligible].assign(group=lambda d: d.subject_id.map(group))
+    by_key = {k: list(g.index) for k, g in pool.groupby(["field", "visit", "group"])}
+    used: set[int] = set()
+    pairs = []
+    for a in rng.permutation(pool.index):
+        if len(pairs) == n_pairs:
+            break
+        if a in used:
+            continue
+        ra = pool.loc[a]
+        cand = [b for b in by_key[(ra.field, ra.visit, ra.group)]
+                if b not in used and b != a and pool.at[b, "subject_id"] != ra.subject_id and pool.at[b, "value"] != ra.value]
+        if cand:
+            b = cand[rng.integers(len(cand))]
+            pairs.append((a, b))
+            used.update((a, b))
+    return pairs
