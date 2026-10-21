@@ -335,4 +335,29 @@ detection metric was computed from it.
 
 ## Deviations
 
-None yet.
+All four were made after the results were seen. None changes the primary
+analysis.
+
+1. **Conformal intervals come from the spread over replicates, not from the
+   patient bootstrap.** In the first evaluation the bootstrap interval of the
+   delta check's errors caught did not contain its own point estimate. The
+   reason is that a bootstrap resample duplicates patients, so the same
+   p-values appear several times, and Benjamini-Hochberg then rejects more than
+   it would on real data. The conformal results are therefore reported as the
+   mean over the 20 replicates with the 2.5 and 97.5 percentiles over
+   replicates. These intervals reflect injection variability only, not patient
+   sampling, and are narrower than an honest interval would be.
+2. **An exploratory version of the individuality test over all fields.** Only
+   4 fields reached the pre-registered minimum of 20 swapped cells, so the
+   pre-registered test has little power. The same Spearman test over all 22
+   laboratory and vital-sign fields is reported next to it, labelled
+   exploratory. The pre-registered result stands as the answer to the
+   hypothesis.
+3. **Error size for fields with no spread.** Some dose fields have a robust SD
+   of zero in training patients, which made every error in them "> 2 SD". The
+   size is now scaled by the SD, or 1, when the robust SD is zero. Only the
+   recall-by-size table can change, and only for dose errors.
+4. **Faster budget counts.** The evaluation code was changed to sum only over
+   the ranked cells a budget can reach. The tests compare it with literally
+   duplicating resampled patients, and the primary numbers were identical
+   before and after the change.
