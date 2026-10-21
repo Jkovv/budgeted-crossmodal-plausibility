@@ -335,7 +335,7 @@ detection metric was computed from it.
 
 ## Deviations
 
-All four were made after the results were seen. None changes the primary
+All five were made after the results were seen. None changes the primary
 analysis.
 
 1. **Conformal intervals come from the spread over replicates, not from the
@@ -361,3 +361,13 @@ analysis.
    the ranked cells a budget can reach. The tests compare it with literally
    duplicating resampled patients, and the primary numbers were identical
    before and after the change.
+5. **Digit transpositions that were decimal slips.** The transposition code
+   also exchanged a zero with the digit next to it when that only moved the
+   decimal point (100 written as 010, 30 as 03, 0.5 as 5.0, 1.0 as 0.1). The
+   plan says the point stays in place, and such a value is a decimal slip
+   under another name: in the first run 43 of the 337 held-out transposition
+   errors were a factor of 10 away from the recorded value. The code now
+   never produces them; a cell whose only transposition would be one of
+   these is not eligible, and the shortfall is reported as for any other
+   type. Every injection replicate changed as a result, so all numbers were
+   regenerated. The primary comparison is reported from the regenerated run.

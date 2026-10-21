@@ -1,11 +1,11 @@
 {
   "primary": {
     "budget": 0.25,
-    "model_yield": 0.6901315789473685,
-    "rules_yield": 0.6611842105263157,
-    "difference": 0.028947368421052833,
-    "difference_lo": -0.03067531645569625,
-    "difference_hi": 0.1377019682726206,
+    "model_yield": 0.6736842105263159,
+    "rules_yield": 0.6493421052631578,
+    "difference": 0.024342105263158054,
+    "difference_lo": -0.02437499999999982,
+    "difference_hi": 0.12923350298350303,
     "verdict": "no clear difference"
   },
   "individuality": {
@@ -14,12 +14,12 @@
     "n_fields": 4,
     "hypothesis_holds": false,
     "exploratory_all_fields": {
-      "spearman_rho": -0.5471485036702428,
-      "p_one_sided": 0.0053994600539946005,
+      "spearman_rho": -0.5166572557876906,
+      "p_one_sided": 0.008399160083991601,
       "n_fields": 22
     },
-    "line_slope": 0.20411028183316923,
-    "line_intercept": 0.5751034964200863,
+    "line_slope": 0.22685124452350963,
+    "line_intercept": 0.5676226261351032,
     "changed_by_cross_modal_context": [
       "chloride",
       "hematocrit"
@@ -27,20 +27,20 @@
   },
   "sensitivity_0.005": {
     "budget": 0.25,
-    "model_yield": 0.22499999999999995,
-    "rules_yield": 0.19605263157894737,
-    "difference": 0.028947368421052583,
-    "difference_lo": 0.010522898154477085,
-    "difference_hi": 0.042857142857142844,
+    "model_yield": 0.21842105263157893,
+    "rules_yield": 0.18684210526315786,
+    "difference": 0.03157894736842107,
+    "difference_lo": 0.016666666666666663,
+    "difference_hi": 0.04487179487179485,
     "verdict": "better"
   },
   "sensitivity_0.05": {
     "budget": 0.25,
-    "model_yield": 0.9763157894736842,
+    "model_yield": 0.9671052631578947,
     "rules_yield": 0.8157894736842106,
-    "difference": 0.16052631578947363,
-    "difference_lo": 0.10971565315315311,
-    "difference_hi": 0.19861111111111107,
+    "difference": 0.15131578947368407,
+    "difference_lo": 0.10428571428571443,
+    "difference_hi": 0.19476973684210502,
     "verdict": "better"
   }
 }

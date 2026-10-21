@@ -25,149 +25,13 @@
       "planned": 36,
       "injected": 36
     },
-    "explaining_away_rounds": 5,
+    "explaining_away_rounds": 4,
     "rep": 0,
     "rate": 0.02,
-    "seconds": 48.4,
+    "seconds": 60.7,
     "n_test_cells": 5422,
-    "n_test_errors": 103,
-    "n_calibration_cells": 3635
-  },
-  {
-    "analysis": "primary",
-    "wrong_date": {
-      "planned": 37,
-      "injected": 37
-    },
-    "patient_swap": {
-      "planned": 37,
-      "injected": 36
-    },
-    "copy_previous": {
-      "planned": 37,
-      "injected": 37
-    },
-    "unit_error": {
-      "planned": 37,
-      "injected": 37
-    },
-    "decimal_slip": {
-      "planned": 36,
-      "injected": 36
-    },
-    "digit_transposition": {
-      "planned": 36,
-      "injected": 36
-    },
-    "explaining_away_rounds": 6,
-    "rep": 1,
-    "rate": 0.02,
-    "seconds": 50.1,
-    "n_test_cells": 5422,
-    "n_test_errors": 103,
-    "n_calibration_cells": 3698
-  },
-  {
-    "analysis": "primary",
-    "wrong_date": {
-      "planned": 37,
-      "injected": 37
-    },
-    "patient_swap": {
-      "planned": 37,
-      "injected": 36
-    },
-    "copy_previous": {
-      "planned": 37,
-      "injected": 37
-    },
-    "unit_error": {
-      "planned": 37,
-      "injected": 37
-    },
-    "decimal_slip": {
-      "planned": 36,
-      "injected": 36
-    },
-    "digit_transposition": {
-      "planned": 36,
-      "injected": 36
-    },
-    "explaining_away_rounds": 8,
-    "rep": 2,
-    "rate": 0.02,
-    "seconds": 53.6,
-    "n_test_cells": 5422,
-    "n_test_errors": 107,
-    "n_calibration_cells": 3687
-  },
-  {
-    "analysis": "primary",
-    "wrong_date": {
-      "planned": 37,
-      "injected": 37
-    },
-    "patient_swap": {
-      "planned": 37,
-      "injected": 36
-    },
-    "copy_previous": {
-      "planned": 37,
-      "injected": 37
-    },
-    "unit_error": {
-      "planned": 37,
-      "injected": 37
-    },
-    "decimal_slip": {
-      "planned": 36,
-      "injected": 36
-    },
-    "digit_transposition": {
-      "planned": 36,
-      "injected": 36
-    },
-    "explaining_away_rounds": 8,
-    "rep": 3,
-    "rate": 0.02,
-    "seconds": 47.2,
-    "n_test_cells": 5422,
-    "n_test_errors": 104,
-    "n_calibration_cells": 3458
-  },
-  {
-    "analysis": "primary",
-    "wrong_date": {
-      "planned": 37,
-      "injected": 37
-    },
-    "patient_swap": {
-      "planned": 37,
-      "injected": 36
-    },
-    "copy_previous": {
-      "planned": 37,
-      "injected": 37
-    },
-    "unit_error": {
-      "planned": 37,
-      "injected": 37
-    },
-    "decimal_slip": {
-      "planned": 36,
-      "injected": 36
-    },
-    "digit_transposition": {
-      "planned": 36,
-      "injected": 36
-    },
-    "explaining_away_rounds": 8,
-    "rep": 4,
-    "rate": 0.02,
-    "seconds": 47.3,
-    "n_test_cells": 5422,
-    "n_test_errors": 113,
-    "n_calibration_cells": 3810
+    "n_test_errors": 105,
+    "n_calibration_cells": 3701
   },
   {
     "analysis": "primary",
@@ -196,12 +60,12 @@
       "injected": 36
     },
     "explaining_away_rounds": 7,
-    "rep": 5,
+    "rep": 1,
     "rate": 0.02,
-    "seconds": 45.3,
+    "seconds": 67.6,
     "n_test_cells": 5422,
-    "n_test_errors": 98,
-    "n_calibration_cells": 3470
+    "n_test_errors": 103,
+    "n_calibration_cells": 3672
   },
   {
     "analysis": "primary",
@@ -229,13 +93,149 @@
       "planned": 36,
       "injected": 36
     },
-    "explaining_away_rounds": 5,
+    "explaining_away_rounds": 6,
+    "rep": 2,
+    "rate": 0.02,
+    "seconds": 64.9,
+    "n_test_cells": 5422,
+    "n_test_errors": 109,
+    "n_calibration_cells": 3711
+  },
+  {
+    "analysis": "primary",
+    "wrong_date": {
+      "planned": 37,
+      "injected": 37
+    },
+    "patient_swap": {
+      "planned": 37,
+      "injected": 36
+    },
+    "copy_previous": {
+      "planned": 37,
+      "injected": 37
+    },
+    "unit_error": {
+      "planned": 37,
+      "injected": 37
+    },
+    "decimal_slip": {
+      "planned": 36,
+      "injected": 36
+    },
+    "digit_transposition": {
+      "planned": 36,
+      "injected": 36
+    },
+    "explaining_away_rounds": 6,
+    "rep": 3,
+    "rate": 0.02,
+    "seconds": 38.5,
+    "n_test_cells": 5422,
+    "n_test_errors": 103,
+    "n_calibration_cells": 3448
+  },
+  {
+    "analysis": "primary",
+    "wrong_date": {
+      "planned": 37,
+      "injected": 37
+    },
+    "patient_swap": {
+      "planned": 37,
+      "injected": 36
+    },
+    "copy_previous": {
+      "planned": 37,
+      "injected": 37
+    },
+    "unit_error": {
+      "planned": 37,
+      "injected": 37
+    },
+    "decimal_slip": {
+      "planned": 36,
+      "injected": 36
+    },
+    "digit_transposition": {
+      "planned": 36,
+      "injected": 36
+    },
+    "explaining_away_rounds": 9,
+    "rep": 4,
+    "rate": 0.02,
+    "seconds": 43.3,
+    "n_test_cells": 5422,
+    "n_test_errors": 110,
+    "n_calibration_cells": 3779
+  },
+  {
+    "analysis": "primary",
+    "wrong_date": {
+      "planned": 37,
+      "injected": 37
+    },
+    "patient_swap": {
+      "planned": 37,
+      "injected": 36
+    },
+    "copy_previous": {
+      "planned": 37,
+      "injected": 37
+    },
+    "unit_error": {
+      "planned": 37,
+      "injected": 37
+    },
+    "decimal_slip": {
+      "planned": 36,
+      "injected": 36
+    },
+    "digit_transposition": {
+      "planned": 36,
+      "injected": 36
+    },
+    "explaining_away_rounds": 6,
+    "rep": 5,
+    "rate": 0.02,
+    "seconds": 36.7,
+    "n_test_cells": 5422,
+    "n_test_errors": 97,
+    "n_calibration_cells": 3462
+  },
+  {
+    "analysis": "primary",
+    "wrong_date": {
+      "planned": 37,
+      "injected": 37
+    },
+    "patient_swap": {
+      "planned": 37,
+      "injected": 36
+    },
+    "copy_previous": {
+      "planned": 37,
+      "injected": 37
+    },
+    "unit_error": {
+      "planned": 37,
+      "injected": 37
+    },
+    "decimal_slip": {
+      "planned": 36,
+      "injected": 36
+    },
+    "digit_transposition": {
+      "planned": 36,
+      "injected": 36
+    },
+    "explaining_away_rounds": 6,
     "rep": 6,
     "rate": 0.02,
-    "seconds": 46.4,
+    "seconds": 36.5,
     "n_test_cells": 5422,
-    "n_test_errors": 106,
-    "n_calibration_cells": 3742
+    "n_test_errors": 107,
+    "n_calibration_cells": 3757
   },
   {
     "analysis": "primary",
@@ -266,10 +266,10 @@
     "explaining_away_rounds": 8,
     "rep": 7,
     "rate": 0.02,
-    "seconds": 51.7,
+    "seconds": 39.5,
     "n_test_cells": 5422,
-    "n_test_errors": 110,
-    "n_calibration_cells": 3549
+    "n_test_errors": 107,
+    "n_calibration_cells": 3481
   },
   {
     "analysis": "primary",
@@ -297,13 +297,13 @@
       "planned": 36,
       "injected": 36
     },
-    "explaining_away_rounds": 7,
+    "explaining_away_rounds": 6,
     "rep": 8,
     "rate": 0.02,
-    "seconds": 50.0,
+    "seconds": 35.6,
     "n_test_cells": 5422,
-    "n_test_errors": 117,
-    "n_calibration_cells": 3888
+    "n_test_errors": 118,
+    "n_calibration_cells": 3927
   },
   {
     "analysis": "primary",
@@ -331,13 +331,13 @@
       "planned": 36,
       "injected": 36
     },
-    "explaining_away_rounds": 5,
+    "explaining_away_rounds": 6,
     "rep": 9,
     "rate": 0.02,
-    "seconds": 50.6,
+    "seconds": 37.0,
     "n_test_cells": 5422,
-    "n_test_errors": 110,
-    "n_calibration_cells": 3771
+    "n_test_errors": 108,
+    "n_calibration_cells": 3758
   },
   {
     "analysis": "primary",
@@ -365,13 +365,13 @@
       "planned": 36,
       "injected": 36
     },
-    "explaining_away_rounds": 7,
+    "explaining_away_rounds": 6,
     "rep": 10,
     "rate": 0.02,
-    "seconds": 57.3,
+    "seconds": 37.0,
     "n_test_cells": 5422,
     "n_test_errors": 105,
-    "n_calibration_cells": 3577
+    "n_calibration_cells": 3587
   },
   {
     "analysis": "primary",
@@ -402,10 +402,10 @@
     "explaining_away_rounds": 8,
     "rep": 11,
     "rate": 0.02,
-    "seconds": 58.7,
+    "seconds": 41.0,
     "n_test_cells": 5422,
     "n_test_errors": 93,
-    "n_calibration_cells": 3575
+    "n_calibration_cells": 3543
   },
   {
     "analysis": "primary",
@@ -433,13 +433,13 @@
       "planned": 36,
       "injected": 36
     },
-    "explaining_away_rounds": 8,
+    "explaining_away_rounds": 7,
     "rep": 12,
     "rate": 0.02,
-    "seconds": 41.4,
+    "seconds": 38.4,
     "n_test_cells": 5422,
     "n_test_errors": 103,
-    "n_calibration_cells": 3572
+    "n_calibration_cells": 3565
   },
   {
     "analysis": "primary",
@@ -470,44 +470,10 @@
     "explaining_away_rounds": 7,
     "rep": 13,
     "rate": 0.02,
-    "seconds": 52.6,
+    "seconds": 37.8,
     "n_test_cells": 5422,
-    "n_test_errors": 126,
-    "n_calibration_cells": 3856
-  },
-  {
-    "analysis": "primary",
-    "wrong_date": {
-      "planned": 37,
-      "injected": 37
-    },
-    "patient_swap": {
-      "planned": 37,
-      "injected": 36
-    },
-    "copy_previous": {
-      "planned": 37,
-      "injected": 37
-    },
-    "unit_error": {
-      "planned": 37,
-      "injected": 37
-    },
-    "decimal_slip": {
-      "planned": 36,
-      "injected": 36
-    },
-    "digit_transposition": {
-      "planned": 36,
-      "injected": 36
-    },
-    "explaining_away_rounds": 4,
-    "rep": 14,
-    "rate": 0.02,
-    "seconds": 48.0,
-    "n_test_cells": 5422,
-    "n_test_errors": 103,
-    "n_calibration_cells": 3550
+    "n_test_errors": 124,
+    "n_calibration_cells": 3820
   },
   {
     "analysis": "primary",
@@ -536,12 +502,46 @@
       "injected": 36
     },
     "explaining_away_rounds": 6,
+    "rep": 14,
+    "rate": 0.02,
+    "seconds": 35.1,
+    "n_test_cells": 5422,
+    "n_test_errors": 104,
+    "n_calibration_cells": 3574
+  },
+  {
+    "analysis": "primary",
+    "wrong_date": {
+      "planned": 37,
+      "injected": 37
+    },
+    "patient_swap": {
+      "planned": 37,
+      "injected": 36
+    },
+    "copy_previous": {
+      "planned": 37,
+      "injected": 37
+    },
+    "unit_error": {
+      "planned": 37,
+      "injected": 37
+    },
+    "decimal_slip": {
+      "planned": 36,
+      "injected": 36
+    },
+    "digit_transposition": {
+      "planned": 36,
+      "injected": 36
+    },
+    "explaining_away_rounds": 4,
     "rep": 15,
     "rate": 0.02,
-    "seconds": 43.6,
+    "seconds": 33.2,
     "n_test_cells": 5422,
     "n_test_errors": 97,
-    "n_calibration_cells": 3518
+    "n_calibration_cells": 3512
   },
   {
     "analysis": "primary",
@@ -572,10 +572,10 @@
     "explaining_away_rounds": 6,
     "rep": 16,
     "rate": 0.02,
-    "seconds": 35.9,
+    "seconds": 36.7,
     "n_test_cells": 5422,
-    "n_test_errors": 102,
-    "n_calibration_cells": 3600
+    "n_test_errors": 101,
+    "n_calibration_cells": 3560
   },
   {
     "analysis": "primary",
@@ -606,10 +606,10 @@
     "explaining_away_rounds": 9,
     "rep": 17,
     "rate": 0.02,
-    "seconds": 41.6,
+    "seconds": 42.8,
     "n_test_cells": 5422,
     "n_test_errors": 109,
-    "n_calibration_cells": 3866
+    "n_calibration_cells": 3869
   },
   {
     "analysis": "primary",
@@ -640,10 +640,10 @@
     "explaining_away_rounds": 5,
     "rep": 18,
     "rate": 0.02,
-    "seconds": 37.0,
+    "seconds": 37.3,
     "n_test_cells": 5422,
-    "n_test_errors": 101,
-    "n_calibration_cells": 3550
+    "n_test_errors": 100,
+    "n_calibration_cells": 3525
   },
   {
     "analysis": "primary",
@@ -674,9 +674,9 @@
     "explaining_away_rounds": 6,
     "rep": 19,
     "rate": 0.02,
-    "seconds": 37.9,
+    "seconds": 41.3,
     "n_test_cells": 5422,
     "n_test_errors": 103,
-    "n_calibration_cells": 3507
+    "n_calibration_cells": 3458
   }
 ]

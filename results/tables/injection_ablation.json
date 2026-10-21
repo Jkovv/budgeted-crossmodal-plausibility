@@ -27,10 +27,10 @@
     },
     "rep": 0,
     "rate": 0.02,
-    "seconds": 252.3,
+    "seconds": 277.9,
     "n_test_cells": 5422,
-    "n_test_errors": 103,
-    "n_calibration_cells": 3635
+    "n_test_errors": 105,
+    "n_calibration_cells": 3701
   },
   {
     "analysis": "ablation_raw",
@@ -60,10 +60,10 @@
     },
     "rep": 1,
     "rate": 0.02,
-    "seconds": 281.9,
+    "seconds": 307.9,
     "n_test_cells": 5422,
     "n_test_errors": 103,
-    "n_calibration_cells": 3698
+    "n_calibration_cells": 3672
   },
   {
     "analysis": "ablation_raw",
@@ -93,10 +93,10 @@
     },
     "rep": 2,
     "rate": 0.02,
-    "seconds": 290.4,
+    "seconds": 318.7,
     "n_test_cells": 5422,
-    "n_test_errors": 107,
-    "n_calibration_cells": 3687
+    "n_test_errors": 109,
+    "n_calibration_cells": 3711
   },
   {
     "analysis": "ablation_raw",
@@ -126,10 +126,10 @@
     },
     "rep": 3,
     "rate": 0.02,
-    "seconds": 270.1,
+    "seconds": 241.2,
     "n_test_cells": 5422,
-    "n_test_errors": 104,
-    "n_calibration_cells": 3458
+    "n_test_errors": 103,
+    "n_calibration_cells": 3448
   },
   {
     "analysis": "ablation_raw",
@@ -159,10 +159,10 @@
     },
     "rep": 4,
     "rate": 0.02,
-    "seconds": 292.6,
+    "seconds": 257.0,
     "n_test_cells": 5422,
-    "n_test_errors": 113,
-    "n_calibration_cells": 3810
+    "n_test_errors": 110,
+    "n_calibration_cells": 3779
   },
   {
     "analysis": "ablation_raw",
@@ -192,10 +192,10 @@
     },
     "rep": 5,
     "rate": 0.02,
-    "seconds": 272.0,
+    "seconds": 245.0,
     "n_test_cells": 5422,
-    "n_test_errors": 98,
-    "n_calibration_cells": 3470
+    "n_test_errors": 97,
+    "n_calibration_cells": 3462
   },
   {
     "analysis": "ablation_raw",
@@ -225,10 +225,10 @@
     },
     "rep": 6,
     "rate": 0.02,
-    "seconds": 261.5,
+    "seconds": 241.4,
     "n_test_cells": 5422,
-    "n_test_errors": 106,
-    "n_calibration_cells": 3742
+    "n_test_errors": 107,
+    "n_calibration_cells": 3757
   },
   {
     "analysis": "ablation_raw",
@@ -258,10 +258,10 @@
     },
     "rep": 7,
     "rate": 0.02,
-    "seconds": 263.7,
+    "seconds": 239.5,
     "n_test_cells": 5422,
-    "n_test_errors": 110,
-    "n_calibration_cells": 3549
+    "n_test_errors": 107,
+    "n_calibration_cells": 3481
   },
   {
     "analysis": "ablation_raw",
@@ -291,10 +291,10 @@
     },
     "rep": 8,
     "rate": 0.02,
-    "seconds": 256.6,
+    "seconds": 241.6,
     "n_test_cells": 5422,
-    "n_test_errors": 117,
-    "n_calibration_cells": 3888
+    "n_test_errors": 118,
+    "n_calibration_cells": 3927
   },
   {
     "analysis": "ablation_raw",
@@ -324,9 +324,9 @@
     },
     "rep": 9,
     "rate": 0.02,
-    "seconds": 178.4,
+    "seconds": 201.8,
     "n_test_cells": 5422,
-    "n_test_errors": 110,
-    "n_calibration_cells": 3771
+    "n_test_errors": 108,
+    "n_calibration_cells": 3758
   }
 ]

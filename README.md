@@ -2,13 +2,13 @@
 
 **When few queries can be sent, a plausibility model that checks each value
 against the rest of the patient's record catches clearly more errors per query
-than EDC range rules: 1.00 against 0.74 at 0.05 queries per patient per visit,
-0.96 against 0.79 at 0.10. With conformal p-values and Benjamini-Hochberg in
-place of a fixed budget, false-query control holds for the model (5.7% false
-queries at a 10% target, 17.1% at 20%) and fails for the range rules (23.7%
-and 35.7%). The pre-specified primary comparison, at 0.25 queries per patient
-per visit, found no clear difference: 0.69 against 0.66 errors per query, +0.03
-(95% CI -0.03 to +0.14), on 49 held-out patients with 2% of values in error.**
+than EDC range rules: 1.00 against 0.75 at 0.05 queries per patient per visit,
+0.94 against 0.78 at 0.10. With conformal p-values and Benjamini-Hochberg in
+place of a fixed budget, false-query control holds for the model (7.0% false
+queries at a 10% target, 16.1% at 20%) and fails for the range rules (26.2%
+and 36.3%). The pre-specified primary comparison, at 0.25 queries per patient
+per visit, found no clear difference: 0.67 against 0.65 errors per query, +0.02
+(95% CI -0.02 to +0.13), on 49 held-out patients with 2% of values in error.**
 
 **The advantage comes from the patient's own history of the same field. The
 model also sees the laboratory values, vital signs and medications of the same
@@ -27,7 +27,7 @@ range rules of an EDC system. It uses the MIMIC-IV Clinical Database Demo,
 resampled from ICU data to a clinical trial visit schedule, with realistic
 transcription errors injected and held-out patients for every reported number.
 Errors are detected and explained, never corrected. With more queries than
-there are rule violations the model stays ahead (recall 0.67 against 0.51 at
+there are rule violations the model stays ahead (recall 0.66 against 0.49 at
 one query per patient-visit), and at 0.5% and 5% error rates it is ahead at
 the primary budget too; these comparisons are descriptive.
 
@@ -88,7 +88,7 @@ what does not fit and never what the value should be.
 
 The plan, written and committed before any detector was run, is in
 `docs/analysis_plan.md`, with the implementation details fixed before the run
-and four deviations made after it. The literature check, with every citation
+and five deviations made after it. The literature check, with every citation
 verified, is in `docs/literature_check.md`.
 
 ## Results
@@ -100,20 +100,20 @@ All numbers are from `results/tables/*.csv` and `results/summary.json`.
 | Budget (queries per patient-visit) | 0.05 | 0.10 | **0.25** | 0.50 | 1.00 |
 |---|---:|---:|---:|---:|---:|
 | Queries | 15 | 31 | 76 | 153 | 306 |
-| Plausibility model | **1.00** | **0.96** | 0.69 | 0.42 | 0.23 |
-| Range rules | 0.74 | 0.79 | 0.66 | 0.35 | 0.17 |
-| Combined (rules first) | 0.75 | 0.79 | 0.67 | 0.42 | 0.24 |
-| Delta check | 0.50 | 0.44 | 0.31 | 0.19 | 0.12 |
-| Model minus rules | +0.26 (0.19 to 0.28) | +0.17 (0.11 to 0.21) | +0.03 (-0.03 to 0.14) | +0.07 (0.04 to 0.09) | +0.06 (0.05 to 0.07) |
+| Plausibility model | **1.00** | **0.94** | 0.67 | 0.41 | 0.23 |
+| Range rules | 0.75 | 0.78 | 0.65 | 0.34 | 0.17 |
+| Combined (rules first) | 0.75 | 0.78 | 0.66 | 0.42 | 0.23 |
+| Delta check | 0.49 | 0.44 | 0.30 | 0.19 | 0.12 |
+| Model minus rules | +0.25 (0.19 to 0.28) | +0.16 (0.10 to 0.21) | +0.02 (-0.02 to 0.13) | +0.07 (0.05 to 0.09) | +0.06 (0.05 to 0.07) |
 
-The range rules raise at most 80 queries on the held-out set, because only that
-many values break a rule. Their precision therefore stays at 0.67 at the two
+The range rules raise at most 78 queries on the held-out set, because only that
+many values break a rule. Their precision therefore stays at 0.66 at the two
 largest budgets, while their errors caught per budgeted query falls. The
 primary budget sits just below that point, which is also why its interval is
 the widest: in some bootstrap resamples the rules can fill the budget and in
 others they cannot. Recall at each budget, model against rules: 0.14 against
-0.11, 0.28 against 0.23, 0.50 against 0.48, 0.61 against 0.51 and 0.67 against
-0.51.
+0.11, 0.28 against 0.23, 0.49 against 0.47, 0.60 against 0.49 and 0.66 against
+0.49.
 
 ### Which errors are caught
 
@@ -126,19 +126,19 @@ Recall at the primary budget:
 
 | Error type | Plausibility model | Range rules | Combined | Delta check |
 |---|---:|---:|---:|---:|
-| Decimal slip | 0.89 | 0.83 | 0.85 | 0.53 |
-| Unit error | 0.75 | 0.64 | 0.65 | 0.47 |
-| Digit transposition | 0.49 | 0.39 | 0.39 | 0.29 |
-| Wrong visit date | 0.80 | **1.00** | **1.00** | 0.00 |
-| Swapped between patients | 0.06 | 0.00 | 0.00 | 0.05 |
+| Decimal slip | 0.91 | 0.84 | 0.86 | 0.53 |
+| Unit error | 0.74 | 0.65 | 0.65 | 0.46 |
+| Digit transposition | 0.43 | 0.32 | 0.34 | 0.28 |
+| Wrong visit date | 0.78 | **1.00** | **1.00** | 0.00 |
+| Swapped between patients | 0.06 | 0.00 | 0.01 | 0.05 |
 | Copied from previous visit | 0.00 | 0.00 | 0.00 | 0.01 |
 
 By error size (on the field's modelling scale, in robust SDs of the field in
 training patients): errors under 0.5 SD are essentially never caught (model
-0.005, rules 0.000), errors of 0.5 to 2 SD rarely (0.02 against 0.005), errors
+0.005, rules 0.000), errors of 0.5 to 2 SD rarely (0.02 against 0.002), errors
 over 2 SD often (0.76 against 0.65). Every injected date error moved the date by
 more than 7 days. At one query per patient-visit the model reaches 0.29 of the
-swaps and 0.10 of the copies, the range rules 0.00 of both.
+swaps and 0.11 of the copies, the range rules 0.00 of both.
 
 ### Which context the model needs
 
@@ -152,14 +152,14 @@ injections for every variant:
 
 | Model | Errors per query | Difference to the full model |
 |---|---:|---:|
-| Full model | 0.682 | |
-| Without the patient's own history (cross-modal only) | 0.636 | -0.046 (-0.076 to -0.009) |
-| Own history only | 0.676 | -0.005 (-0.034 to 0.025) |
-| Without labs | 0.693 | +0.012 (-0.015 to 0.038) |
-| Without vital signs | 0.684 | +0.003 (-0.017 to 0.023) |
-| Without medications | 0.682 | 0.000 (-0.013 to 0.020) |
-| Without dates | 0.679 | -0.003 (-0.005 to 0.007) |
-| Without baseline | 0.670 | -0.012 (-0.024 to 0.015) |
+| Full model | 0.675 | |
+| Without the patient's own history (cross-modal only) | 0.629 | -0.046 (-0.077 to -0.008) |
+| Own history only | 0.666 | -0.009 (-0.042 to 0.025) |
+| Without labs | 0.683 | +0.008 (-0.022 to 0.031) |
+| Without vital signs | 0.662 | -0.013 (-0.027 to 0.014) |
+| Without medications | 0.675 | 0.000 (-0.023 to 0.016) |
+| Without dates | 0.674 | -0.001 (-0.005 to 0.007) |
+| Without baseline | 0.657 | -0.018 (-0.036 to 0.003) |
 
 Only the patient's own history matters at this budget. Cross-modal context
 helps where values are tied to each other at the same visit (see the index of
@@ -181,21 +181,21 @@ and Benjamini-Hochberg was applied within each of five pseudo-sites. Mean over
 
 | Detector | Target | Queries | Per patient-visit | Errors caught | Achieved false-query rate |
 |---|---:|---:|---:|---:|---:|
-| Plausibility model | 10% | 26.7 | 0.09 | 24.9 | **5.7%** (0 to 14%) |
-| Plausibility model | 20% | 47.9 | 0.16 | 38.8 | **17.1%** (2 to 41%) |
-| Range rules | 10% | 39.2 | 0.13 | 25.2 | 23.7% (0 to 44%) |
-| Range rules | 20% | 71.3 | 0.23 | 46.2 | 35.7% (30 to 42%) |
-| Combined | 10% | 42.3 | 0.14 | 26.3 | 27.3% (0 to 51%) |
-| Combined | 20% | 81.9 | 0.27 | 50.0 | 39.4% (32 to 49%) |
-| Delta check | 10% | 0.5 | 0.00 | 0.3 | 5.0% |
-| Delta check | 20% | 2.0 | 0.01 | 1.0 | 12.8% |
+| Plausibility model | 10% | 29.5 | 0.10 | 27.1 | **7.0%** (0 to 18%) |
+| Plausibility model | 20% | 46.5 | 0.15 | 38.1 | **16.1%** (0 to 26%) |
+| Range rules | 10% | 41.0 | 0.13 | 26.0 | 26.2% (0 to 47%) |
+| Range rules | 20% | 70.6 | 0.23 | 45.4 | 36.3% (30 to 43%) |
+| Combined | 10% | 45.3 | 0.15 | 27.8 | 32.3% (0 to 55%) |
+| Combined | 20% | 79.8 | 0.26 | 48.0 | 40.2% (33 to 46%) |
+| Delta check | 10% | 0.5 | 0.00 | 0.2 | 5.0% |
+| Delta check | 20% | 2.4 | 0.01 | 1.2 | 11.7% |
 
 The model's false-query rate stays under both targets. The range rules and the
 combined detector exceed theirs. The guarantee assumes that calibration values
 are exchangeable with the clean held-out values, which here means clean: these
 calibration visits are only free of *injected* errors, and real calibration data
 never are fully clean. For the rules the failure is visible: the clean
-calibration visits contain on average 5 rule violations in 3,644 values (0.15%,
+calibration visits contain on average 5 rule violations in 3,635 values (0.14%,
 from about 5 patients), while the held-out set has 27 genuine violations in
 about 5,300 clean values (0.5%, about 12 patients). With genuine extreme values
 three times rarer in calibration than in the data being checked, their
@@ -219,24 +219,25 @@ training patients) would have their swapped values detected more often.
   20 swapped values (chloride, bicarbonate, glucose, hematocrit). Spearman rho
   -0.80, one-sided permutation p = 0.16. With four points the test could hardly
   have succeeded.
-* **Exploratory, all 22 laboratory and vital-sign fields:** rho -0.55, p =
-  0.005. The expected relationship is there once all fields are counted, as the
+* **Exploratory, all 22 laboratory and vital-sign fields:** rho -0.52, p =
+  0.008. The expected relationship is there once all fields are counted, as the
   delta-check literature predicts (Tan et al. 2020).
 * **Where cross-modal context changes detectability beyond the index:** among
-  the tested fields, hematocrit (AUROC 0.83 against 0.65 with own history only)
-  and chloride (0.78 against 0.68). In the exploratory set, diastolic blood
-  pressure (0.90 against 0.64) and sodium (0.84 against 0.59) gain most. Of the
-  fields expected in advance, the electrolytes and the hematocrit to hemoglobin
-  pair behave as expected except bicarbonate (which loses 0.11); the blood
-  pressure components gain, but only diastolic pressure by much.
+  the tested fields, hematocrit (AUROC 0.86 against 0.64 with own history only)
+  and chloride (0.78 against 0.69). In the exploratory set, diastolic blood
+  pressure (0.93 against 0.64) gains most, then SpO2 (0.55 against 0.35, still
+  near chance) and sodium (0.82 against 0.63). Of the fields expected in
+  advance, the electrolytes and the hematocrit to hemoglobin pair behave as
+  expected except bicarbonate (which loses 0.16); the blood pressure
+  components gain, but only diastolic pressure by much.
 
 ### Sensitivity to the error rate
 
 | Error rate | Model | Range rules | Difference at the primary budget |
 |---|---:|---:|---:|
-| 0.5% | 0.225 | 0.196 | +0.029 (0.011 to 0.043), model better |
-| **2% (primary)** | 0.690 | 0.661 | +0.029 (-0.031 to 0.138), no clear difference |
-| 5% | 0.976 | 0.816 | +0.161 (0.110 to 0.199), model better |
+| 0.5% | 0.218 | 0.187 | +0.032 (0.017 to 0.045), model better |
+| **2% (primary)** | 0.674 | 0.649 | +0.024 (-0.024 to 0.129), no clear difference |
+| 5% | 0.967 | 0.816 | +0.151 (0.104 to 0.195), model better |
 
 ## Negative and mixed findings, stated plainly
 
@@ -251,7 +252,7 @@ training patients) would have their swapped values detected more often.
   design.
 * **Swaps between patients are barely caught** (6% at the primary budget). Per
   field the model separates swapped from clean values with an AUROC between
-  0.48 and 0.96, below the 0.97 that a multianalyte delta check reached on
+  0.53 and 0.96, below the 0.97 that a multianalyte delta check reached on
   consecutive inpatient chemistry results (Rosenbaum and Baron 2018). Here
   visits are a day or a week apart, and 46% of the swaps move the value by
   less than two of the patient's typical visit-to-visit SDs.
@@ -260,7 +261,7 @@ training patients) would have their swapped values detected more often.
   are arithmetically tied (hematocrit and hemoglobin, the electrolytes,
   diastolic pressure).
 * **Range rules are better for dates.** The visit window check catches every
-  wrong date; the model 80% at the primary budget. In these data that is partly
+  wrong date; the model 78% at the primary budget. In these data that is partly
   by construction: genuine visit dates always lie inside their window, so the
   rule has no false alarms on dates. The combined detector keeps both
   strengths.
@@ -310,12 +311,12 @@ so this is not a controlled comparison:
   the first experiment.
 
 The fields that gain from cross-modal context are the same in both: diastolic
-pressure (dense swap recall 13% to 57%; here AUROC 0.64 to 0.90), sodium (29%
-to 53%; 0.59 to 0.84) and hematocrit (41% to 60%; 0.65 to 0.83). Here those
+pressure (dense swap recall 13% to 57%; here AUROC 0.64 to 0.93), sodium (29%
+to 53%; 0.63 to 0.82) and hematocrit (41% to 60%; 0.64 to 0.86). Here those
 gains are too small at the top of the ranking to matter: at one query per
 patient-visit, in the 10 ablation replicates, adding the other modalities to
-the own-history model raises swap recall from 0.22 to 0.25 (difference 0.04,
-95% CI -0.03 to 0.10), against 27% to 42% on dense data.
+the own-history model raises swap recall from 0.21 to 0.26 (difference 0.05,
+95% CI -0.01 to 0.12), against 27% to 42% on dense data.
 
 **A hypothesis for future work, not a finding of this repository:**
 measurement density is one of the factors that decide when multimodal context
@@ -398,8 +399,8 @@ bash, which comes with Git for Windows (Git Bash) or WSL.
 PhysioNet's SHA-256 sums) and runs `python -m bcp.cli` with the steps
 `prepare`, `primary`, `ablation`, `sensitivity`, `evaluate`, `figures` and
 `explain`, then executes `notebooks/walkthrough.ipynb`. On a 12-core laptop
-with three worker processes (`WORKERS=3`) the runs take about 27 minutes
-(primary 6, ablation 16, sensitivity 6) and the evaluation about 4. `WORKERS`
+with three worker processes (`WORKERS=3`) the runs take about 30 minutes
+(primary 5, ablation 16, sensitivity 7) and the evaluation about 2. `WORKERS`
 defaults to the number of cores divided by four, because every model fit uses
 four threads; more workers than that oversubscribes the cores and makes the run
 many times slower. Results are deterministic for the seeds in
@@ -420,9 +421,10 @@ including any cell of the notebook. That takes 12 to 20 minutes, most of it
 the download. The full `make all` takes about an hour on a GitHub-hosted runner
 (58 minutes on 21 October 2026, 16 of them the download), so it runs only when
 started by hand (Actions, pipeline, Run workflow, tick "full"); that job also
-lists the committed files its results differ from. On that run every number in
-the tables and in `results/summary.json` matched the committed results
-exactly; the figures differ only in the font. The `tests` workflow runs the
+lists the committed files its results differ from. On that run, made before
+the results were regenerated (deviation 5 in the plan), every number in the
+tables and in `results/summary.json` matched the results committed at the
+time exactly; the figures differed only in the font. The `tests` workflow runs the
 unit tests.
 
 ```
