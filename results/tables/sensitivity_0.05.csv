@@ -1,144 +1,144 @@
 detector,budget,metric,estimate,lo,hi
-rules,0.05000,recall,0.04280,0.03944,0.05053
-rules,0.10000,recall,0.09060,0.08152,0.09883
-rules,0.25000,recall,0.23247,0.21268,0.26194
-rules,0.50000,recall,0.45704,0.40315,0.49925
-rules,1.00000,recall,0.51238,0.49587,0.52968
-rules,0.05000,recall|type:digit_transposition,0.00000,0.00000,0.00000
-rules,0.10000,recall|type:digit_transposition,0.00000,0.00000,0.00000
-rules,0.25000,recall|type:digit_transposition,0.02288,0.00817,0.06533
-rules,0.50000,recall|type:digit_transposition,0.37997,0.27525,0.46463
-rules,1.00000,recall|type:digit_transposition,0.47416,0.42653,0.52458
-rules,0.05000,recall|size:< 0.5 sd,0.00000,0.00000,0.00000
-rules,0.10000,recall|size:< 0.5 sd,0.00000,0.00000,0.00000
-rules,0.25000,recall|size:< 0.5 sd,0.00000,0.00000,0.00000
-rules,0.50000,recall|size:< 0.5 sd,0.00189,0.00000,0.00577
-rules,1.00000,recall|size:< 0.5 sd,0.00189,0.00000,0.00577
-rules,0.05000,queries_raised,15.00000,14.00000,17.00000
-rules,0.10000,queries_raised,31.00000,27.00000,34.00000
-rules,0.25000,queries_raised,76.00000,68.00000,85.00000
-rules,0.50000,queries_raised,152.40000,132.39500,168.60000
-rules,1.00000,queries_raised,171.10000,138.19750,206.51000
-rules,0.05000,recall|type:copy_previous,0.00000,0.00000,0.00000
-rules,0.10000,recall|type:copy_previous,0.00000,0.00000,0.00000
-rules,0.25000,recall|type:copy_previous,0.00000,0.00000,0.00000
-rules,0.50000,recall|type:copy_previous,0.00644,0.00000,0.01472
-rules,1.00000,recall|type:copy_previous,0.00644,0.00000,0.01554
-rules,0.05000,recall|size:date > 7 days,0.26754,0.24408,0.32570
-rules,0.10000,recall|size:date > 7 days,0.55552,0.49669,0.62434
-rules,0.25000,recall|size:date > 7 days,0.98964,0.96165,0.99792
-rules,0.50000,recall|size:date > 7 days,1.00000,1.00000,1.00000
-rules,1.00000,recall|size:date > 7 days,1.00000,1.00000,1.00000
-rules,0.05000,recall|type:decimal_slip,0.00000,0.00000,0.00513
-rules,0.10000,recall|type:decimal_slip,0.00513,0.00000,0.02050
-rules,0.25000,recall|type:decimal_slip,0.26867,0.19569,0.37952
-rules,0.50000,recall|type:decimal_slip,0.82440,0.72755,0.88607
-rules,1.00000,recall|type:decimal_slip,0.90312,0.86935,0.93233
-rules,0.05000,recall|type:patient_swap,0.00000,0.00000,0.00000
-rules,0.10000,recall|type:patient_swap,0.00000,0.00000,0.00000
-rules,0.25000,recall|type:patient_swap,0.00000,0.00000,0.00000
-rules,0.50000,recall|type:patient_swap,0.00167,0.00000,0.00536
-rules,1.00000,recall|type:patient_swap,0.00167,0.00000,0.00536
-rules,0.05000,recall|type:unit_error,0.00000,0.00000,0.00000
-rules,0.10000,recall|type:unit_error,0.00204,0.00000,0.00698
-rules,0.25000,recall|type:unit_error,0.13454,0.09253,0.18203
-rules,0.50000,recall|type:unit_error,0.55895,0.44001,0.67420
-rules,1.00000,recall|type:unit_error,0.72314,0.67495,0.77073
-rules,0.05000,precision,0.76000,0.71872,0.82500
-rules,0.10000,precision,0.78065,0.74062,0.81334
-rules,0.25000,precision,0.81579,0.78088,0.84737
-rules,0.50000,precision,0.80119,0.71700,0.87553
-rules,1.00000,precision,0.80218,0.72014,0.87843
-rules,0.05000,recall|size:0.5-2.0 sd,0.00000,0.00000,0.00000
-rules,0.10000,recall|size:0.5-2.0 sd,0.00000,0.00000,0.00000
-rules,0.25000,recall|size:0.5-2.0 sd,0.00000,0.00000,0.00000
-rules,0.50000,recall|size:0.5-2.0 sd,0.00400,0.00000,0.01743
-rules,1.00000,recall|size:0.5-2.0 sd,0.01162,0.00172,0.02553
-rules,0.05000,recall|type:wrong_date,0.26754,0.24408,0.32570
-rules,0.10000,recall|type:wrong_date,0.55552,0.49669,0.62434
-rules,0.25000,recall|type:wrong_date,0.98964,0.96165,0.99792
-rules,0.50000,recall|type:wrong_date,1.00000,1.00000,1.00000
-rules,1.00000,recall|type:wrong_date,1.00000,1.00000,1.00000
 rules,0.05000,yield,0.76000,0.71872,0.82500
 rules,0.10000,yield,0.78065,0.74062,0.81334
 rules,0.25000,yield,0.81579,0.78088,0.84737
 rules,0.50000,yield,0.79804,0.71655,0.84591
 rules,1.00000,yield,0.44837,0.41088,0.48383
+rules,0.05000,precision,0.76000,0.71872,0.82500
+rules,0.10000,precision,0.78065,0.74062,0.81334
+rules,0.25000,precision,0.81579,0.78088,0.84737
+rules,0.50000,precision,0.80119,0.71700,0.87553
+rules,1.00000,precision,0.80218,0.72014,0.87843
+rules,0.05000,queries_raised,15.00000,14.00000,17.00000
+rules,0.10000,queries_raised,31.00000,27.00000,34.00000
+rules,0.25000,queries_raised,76.00000,68.00000,85.00000
+rules,0.50000,queries_raised,152.40000,132.39500,168.60000
+rules,1.00000,queries_raised,171.10000,138.19750,206.51000
+rules,0.05000,recall,0.04280,0.03944,0.05053
+rules,0.10000,recall,0.09060,0.08152,0.09883
+rules,0.25000,recall,0.23247,0.21268,0.26194
+rules,0.50000,recall,0.45704,0.40315,0.49925
+rules,1.00000,recall,0.51238,0.49587,0.52968
+rules,0.05000,recall|type:wrong_date,0.26754,0.24408,0.32570
+rules,0.10000,recall|type:wrong_date,0.55552,0.49669,0.62434
+rules,0.25000,recall|type:wrong_date,0.98964,0.96165,0.99792
+rules,0.50000,recall|type:wrong_date,1.00000,1.00000,1.00000
+rules,1.00000,recall|type:wrong_date,1.00000,1.00000,1.00000
+rules,0.05000,recall|type:patient_swap,0.00000,0.00000,0.00000
+rules,0.10000,recall|type:patient_swap,0.00000,0.00000,0.00000
+rules,0.25000,recall|type:patient_swap,0.00000,0.00000,0.00000
+rules,0.50000,recall|type:patient_swap,0.00167,0.00000,0.00536
+rules,1.00000,recall|type:patient_swap,0.00167,0.00000,0.00536
+rules,0.05000,recall|type:copy_previous,0.00000,0.00000,0.00000
+rules,0.10000,recall|type:copy_previous,0.00000,0.00000,0.00000
+rules,0.25000,recall|type:copy_previous,0.00000,0.00000,0.00000
+rules,0.50000,recall|type:copy_previous,0.00644,0.00000,0.01472
+rules,1.00000,recall|type:copy_previous,0.00644,0.00000,0.01554
+rules,0.05000,recall|type:unit_error,0.00000,0.00000,0.00000
+rules,0.10000,recall|type:unit_error,0.00204,0.00000,0.00698
+rules,0.25000,recall|type:unit_error,0.13454,0.09253,0.18203
+rules,0.50000,recall|type:unit_error,0.55895,0.44001,0.67420
+rules,1.00000,recall|type:unit_error,0.72314,0.67495,0.77073
+rules,0.05000,recall|type:decimal_slip,0.00000,0.00000,0.00513
+rules,0.10000,recall|type:decimal_slip,0.00513,0.00000,0.02050
+rules,0.25000,recall|type:decimal_slip,0.26867,0.19569,0.37952
+rules,0.50000,recall|type:decimal_slip,0.82440,0.72755,0.88607
+rules,1.00000,recall|type:decimal_slip,0.90312,0.86935,0.93233
+rules,0.05000,recall|type:digit_transposition,0.00000,0.00000,0.00000
+rules,0.10000,recall|type:digit_transposition,0.00000,0.00000,0.00000
+rules,0.25000,recall|type:digit_transposition,0.02288,0.00817,0.06533
+rules,0.50000,recall|type:digit_transposition,0.37997,0.27525,0.46463
+rules,1.00000,recall|type:digit_transposition,0.47416,0.42653,0.52458
+rules,0.05000,recall|size:0.5-2.0 sd,0.00000,0.00000,0.00000
+rules,0.10000,recall|size:0.5-2.0 sd,0.00000,0.00000,0.00000
+rules,0.25000,recall|size:0.5-2.0 sd,0.00000,0.00000,0.00000
+rules,0.50000,recall|size:0.5-2.0 sd,0.00400,0.00000,0.01743
+rules,1.00000,recall|size:0.5-2.0 sd,0.01162,0.00172,0.02553
+rules,0.05000,recall|size:< 0.5 sd,0.00000,0.00000,0.00000
+rules,0.10000,recall|size:< 0.5 sd,0.00000,0.00000,0.00000
+rules,0.25000,recall|size:< 0.5 sd,0.00000,0.00000,0.00000
+rules,0.50000,recall|size:< 0.5 sd,0.00189,0.00000,0.00577
+rules,1.00000,recall|size:< 0.5 sd,0.00189,0.00000,0.00577
 rules,0.05000,recall|size:> 2.0 sd,0.00000,0.00000,0.00155
 rules,0.10000,recall|size:> 2.0 sd,0.00224,0.00000,0.00723
 rules,0.25000,recall|size:> 2.0 sd,0.14554,0.10625,0.20749
 rules,0.50000,recall|size:> 2.0 sd,0.60362,0.49728,0.68185
 rules,1.00000,recall|size:> 2.0 sd,0.71575,0.68942,0.73975
-delta,0.05000,recall,0.03079,0.02737,0.03622
-delta,0.10000,recall,0.06325,0.05620,0.06921
-delta,0.25000,recall,0.14332,0.13110,0.16114
-delta,0.50000,recall,0.24210,0.22009,0.25929
-delta,1.00000,recall,0.31216,0.29410,0.32969
-delta,0.05000,recall|type:digit_transposition,0.00208,0.00000,0.00667
-delta,0.10000,recall|type:digit_transposition,0.00629,0.00200,0.02465
-delta,0.25000,recall|type:digit_transposition,0.14928,0.11501,0.19887
-delta,0.50000,recall|type:digit_transposition,0.32948,0.27839,0.37673
-delta,1.00000,recall|type:digit_transposition,0.45509,0.41295,0.49421
-delta,0.05000,recall|size:< 0.5 sd,0.00000,0.00000,0.00185
-delta,0.10000,recall|size:< 0.5 sd,0.00389,0.00000,0.00900
-delta,0.25000,recall|size:< 0.5 sd,0.01178,0.00303,0.02380
-delta,0.50000,recall|size:< 0.5 sd,0.01422,0.00432,0.02577
-delta,1.00000,recall|size:< 0.5 sd,0.02060,0.01043,0.03856
-delta,0.05000,queries_raised,15.00000,14.00000,17.00000
-delta,0.10000,queries_raised,31.00000,27.00000,34.00000
-delta,0.25000,queries_raised,76.00000,68.00000,85.00000
-delta,0.50000,queries_raised,153.00000,136.00000,170.00000
-delta,1.00000,queries_raised,306.00000,272.00000,339.00000
-delta,0.05000,recall|type:copy_previous,0.00000,0.00000,0.00196
-delta,0.10000,recall|type:copy_previous,0.00406,0.00000,0.00932
-delta,0.25000,recall|type:copy_previous,0.00808,0.00204,0.01836
-delta,0.50000,recall|type:copy_previous,0.01020,0.00232,0.01921
-delta,1.00000,recall|type:copy_previous,0.01428,0.00513,0.02342
-delta,0.05000,recall|size:date > 7 days,0.00000,0.00000,0.00000
-delta,0.10000,recall|size:date > 7 days,0.00000,0.00000,0.00000
-delta,0.25000,recall|size:date > 7 days,0.00000,0.00000,0.00000
-delta,0.50000,recall|size:date > 7 days,0.00000,0.00000,0.00000
-delta,1.00000,recall|size:date > 7 days,0.00000,0.00000,0.00000
-delta,0.05000,recall|type:decimal_slip,0.09722,0.07216,0.12453
-delta,0.10000,recall|type:decimal_slip,0.19643,0.16536,0.24083
-delta,0.25000,recall|type:decimal_slip,0.46451,0.42132,0.49593
-delta,0.50000,recall|type:decimal_slip,0.58730,0.52632,0.63067
-delta,1.00000,recall|type:decimal_slip,0.66849,0.61460,0.71202
-delta,0.05000,recall|type:patient_swap,0.00217,0.00000,0.00741
-delta,0.10000,recall|type:patient_swap,0.00426,0.00000,0.00958
-delta,0.25000,recall|type:patient_swap,0.01249,0.00305,0.03006
-delta,0.50000,recall|type:patient_swap,0.06877,0.04012,0.10085
-delta,1.00000,recall|type:patient_swap,0.16280,0.13103,0.20940
-delta,0.05000,recall|type:unit_error,0.08443,0.06739,0.11271
-delta,0.10000,recall|type:unit_error,0.17322,0.13381,0.18968
-delta,0.25000,recall|type:unit_error,0.23487,0.20299,0.28795
-delta,0.50000,recall|type:unit_error,0.46561,0.41199,0.50948
-delta,1.00000,recall|type:unit_error,0.57593,0.53058,0.61975
-delta,0.05000,precision,0.54667,0.48824,0.60000
-delta,0.10000,precision,0.54516,0.50323,0.57500
-delta,0.25000,precision,0.50395,0.46911,0.53718
-delta,0.50000,precision,0.42288,0.38344,0.44754
-delta,1.00000,precision,0.27222,0.24830,0.29200
-delta,0.05000,recall|size:0.5-2.0 sd,0.00182,0.00000,0.00577
-delta,0.10000,recall|size:0.5-2.0 sd,0.00182,0.00000,0.00577
-delta,0.25000,recall|size:0.5-2.0 sd,0.01148,0.00169,0.02271
-delta,0.50000,recall|size:0.5-2.0 sd,0.04651,0.02522,0.07377
-delta,1.00000,recall|size:0.5-2.0 sd,0.13218,0.08590,0.18018
-delta,0.05000,recall|type:wrong_date,0.00000,0.00000,0.00000
-delta,0.10000,recall|type:wrong_date,0.00000,0.00000,0.00000
-delta,0.25000,recall|type:wrong_date,0.00000,0.00000,0.00000
-delta,0.50000,recall|type:wrong_date,0.00000,0.00000,0.00000
-delta,1.00000,recall|type:wrong_date,0.00000,0.00000,0.00000
+rules,0.05000,recall|size:date > 7 days,0.26754,0.24408,0.32570
+rules,0.10000,recall|size:date > 7 days,0.55552,0.49669,0.62434
+rules,0.25000,recall|size:date > 7 days,0.98964,0.96165,0.99792
+rules,0.50000,recall|size:date > 7 days,1.00000,1.00000,1.00000
+rules,1.00000,recall|size:date > 7 days,1.00000,1.00000,1.00000
 delta,0.05000,yield,0.54667,0.48824,0.60000
 delta,0.10000,yield,0.54516,0.50323,0.57500
 delta,0.25000,yield,0.50395,0.46911,0.53718
 delta,0.50000,yield,0.42288,0.38344,0.44754
 delta,1.00000,yield,0.27222,0.24830,0.29200
+delta,0.05000,precision,0.54667,0.48824,0.60000
+delta,0.10000,precision,0.54516,0.50323,0.57500
+delta,0.25000,precision,0.50395,0.46911,0.53718
+delta,0.50000,precision,0.42288,0.38344,0.44754
+delta,1.00000,precision,0.27222,0.24830,0.29200
+delta,0.05000,queries_raised,15.00000,14.00000,17.00000
+delta,0.10000,queries_raised,31.00000,27.00000,34.00000
+delta,0.25000,queries_raised,76.00000,68.00000,85.00000
+delta,0.50000,queries_raised,153.00000,136.00000,170.00000
+delta,1.00000,queries_raised,306.00000,272.00000,339.00000
+delta,0.05000,recall,0.03079,0.02737,0.03622
+delta,0.10000,recall,0.06325,0.05620,0.06921
+delta,0.25000,recall,0.14332,0.13110,0.16114
+delta,0.50000,recall,0.24210,0.22009,0.25929
+delta,1.00000,recall,0.31216,0.29410,0.32969
+delta,0.05000,recall|type:wrong_date,0.00000,0.00000,0.00000
+delta,0.10000,recall|type:wrong_date,0.00000,0.00000,0.00000
+delta,0.25000,recall|type:wrong_date,0.00000,0.00000,0.00000
+delta,0.50000,recall|type:wrong_date,0.00000,0.00000,0.00000
+delta,1.00000,recall|type:wrong_date,0.00000,0.00000,0.00000
+delta,0.05000,recall|type:patient_swap,0.00217,0.00000,0.00741
+delta,0.10000,recall|type:patient_swap,0.00426,0.00000,0.00958
+delta,0.25000,recall|type:patient_swap,0.01249,0.00305,0.03006
+delta,0.50000,recall|type:patient_swap,0.06877,0.04012,0.10085
+delta,1.00000,recall|type:patient_swap,0.16280,0.13103,0.20940
+delta,0.05000,recall|type:copy_previous,0.00000,0.00000,0.00196
+delta,0.10000,recall|type:copy_previous,0.00406,0.00000,0.00932
+delta,0.25000,recall|type:copy_previous,0.00808,0.00204,0.01836
+delta,0.50000,recall|type:copy_previous,0.01020,0.00232,0.01921
+delta,1.00000,recall|type:copy_previous,0.01428,0.00513,0.02342
+delta,0.05000,recall|type:unit_error,0.08443,0.06739,0.11271
+delta,0.10000,recall|type:unit_error,0.17322,0.13381,0.18968
+delta,0.25000,recall|type:unit_error,0.23487,0.20299,0.28795
+delta,0.50000,recall|type:unit_error,0.46561,0.41199,0.50948
+delta,1.00000,recall|type:unit_error,0.57593,0.53058,0.61975
+delta,0.05000,recall|type:decimal_slip,0.09722,0.07216,0.12453
+delta,0.10000,recall|type:decimal_slip,0.19643,0.16536,0.24083
+delta,0.25000,recall|type:decimal_slip,0.46451,0.42132,0.49593
+delta,0.50000,recall|type:decimal_slip,0.58730,0.52632,0.63067
+delta,1.00000,recall|type:decimal_slip,0.66849,0.61460,0.71202
+delta,0.05000,recall|type:digit_transposition,0.00208,0.00000,0.00667
+delta,0.10000,recall|type:digit_transposition,0.00629,0.00200,0.02465
+delta,0.25000,recall|type:digit_transposition,0.14928,0.11501,0.19887
+delta,0.50000,recall|type:digit_transposition,0.32948,0.27839,0.37673
+delta,1.00000,recall|type:digit_transposition,0.45509,0.41295,0.49421
+delta,0.05000,recall|size:0.5-2.0 sd,0.00182,0.00000,0.00577
+delta,0.10000,recall|size:0.5-2.0 sd,0.00182,0.00000,0.00577
+delta,0.25000,recall|size:0.5-2.0 sd,0.01148,0.00169,0.02271
+delta,0.50000,recall|size:0.5-2.0 sd,0.04651,0.02522,0.07377
+delta,1.00000,recall|size:0.5-2.0 sd,0.13218,0.08590,0.18018
+delta,0.05000,recall|size:< 0.5 sd,0.00000,0.00000,0.00185
+delta,0.10000,recall|size:< 0.5 sd,0.00389,0.00000,0.00900
+delta,0.25000,recall|size:< 0.5 sd,0.01178,0.00303,0.02380
+delta,0.50000,recall|size:< 0.5 sd,0.01422,0.00432,0.02577
+delta,1.00000,recall|size:< 0.5 sd,0.02060,0.01043,0.03856
 delta,0.05000,recall|size:> 2.0 sd,0.06279,0.05600,0.07383
 delta,0.10000,recall|size:> 2.0 sd,0.12850,0.11488,0.14193
 delta,0.25000,recall|size:> 2.0 sd,0.28776,0.26637,0.32526
 delta,0.50000,recall|size:> 2.0 sd,0.47701,0.43616,0.50514
 delta,1.00000,recall|size:> 2.0 sd,0.58300,0.55651,0.60786
+delta,0.05000,recall|size:date > 7 days,0.00000,0.00000,0.00000
+delta,0.10000,recall|size:date > 7 days,0.00000,0.00000,0.00000
+delta,0.25000,recall|size:date > 7 days,0.00000,0.00000,0.00000
+delta,0.50000,recall|size:date > 7 days,0.00000,0.00000,0.00000
+delta,1.00000,recall|size:date > 7 days,0.00000,0.00000,0.00000
 delta,0.05000,diff_vs_rules|yield,-0.21333,-0.30625,-0.15333
 delta,0.10000,diff_vs_rules|yield,-0.23548,-0.28667,-0.18667
 delta,0.25000,diff_vs_rules|yield,-0.31184,-0.36203,-0.26410
@@ -159,76 +159,76 @@ delta,0.10000,diff_vs_rules|queries_raised,0.00000,0.00000,0.00000
 delta,0.25000,diff_vs_rules|queries_raised,0.00000,0.00000,0.00000
 delta,0.50000,diff_vs_rules|queries_raised,0.60000,0.00000,9.30000
 delta,1.00000,diff_vs_rules|queries_raised,134.90000,108.59750,158.70000
-model_full,0.05000,recall,0.05617,0.05292,0.06346
-model_full,0.10000,recall,0.11609,0.10623,0.12567
-model_full,0.25000,recall,0.27762,0.25558,0.30606
-model_full,0.50000,recall,0.46941,0.43480,0.50286
-model_full,1.00000,recall,0.60534,0.57554,0.63587
-model_full,0.05000,recall|type:digit_transposition,0.01544,0.00500,0.02628
-model_full,0.10000,recall|type:digit_transposition,0.03631,0.02067,0.05613
-model_full,0.25000,recall|type:digit_transposition,0.24855,0.20260,0.29799
-model_full,0.50000,recall|type:digit_transposition,0.54588,0.48247,0.59242
-model_full,1.00000,recall|type:digit_transposition,0.69015,0.65120,0.74661
-model_full,0.05000,recall|size:< 0.5 sd,0.00000,0.00000,0.00000
-model_full,0.10000,recall|size:< 0.5 sd,0.00000,0.00000,0.00000
-model_full,0.25000,recall|size:< 0.5 sd,0.00000,0.00000,0.00000
-model_full,0.50000,recall|size:< 0.5 sd,0.00196,0.00000,0.00656
-model_full,1.00000,recall|size:< 0.5 sd,0.01787,0.00640,0.02921
-model_full,0.05000,queries_raised,15.00000,14.00000,17.00000
-model_full,0.10000,queries_raised,31.00000,27.00000,34.00000
-model_full,0.25000,queries_raised,76.00000,68.00000,85.00000
-model_full,0.50000,queries_raised,153.00000,136.00000,170.00000
-model_full,1.00000,queries_raised,306.00000,272.00000,339.00000
-model_full,0.05000,recall|type:copy_previous,0.00000,0.00000,0.00000
-model_full,0.10000,recall|type:copy_previous,0.00000,0.00000,0.00000
-model_full,0.25000,recall|type:copy_previous,0.00000,0.00000,0.00855
-model_full,0.50000,recall|type:copy_previous,0.01302,0.00400,0.02389
-model_full,1.00000,recall|type:copy_previous,0.06697,0.04396,0.08740
-model_full,0.05000,recall|size:date > 7 days,0.00278,0.00000,0.03729
-model_full,0.10000,recall|size:date > 7 days,0.19860,0.13463,0.24511
-model_full,0.25000,recall|size:date > 7 days,0.43737,0.39774,0.48510
-model_full,0.50000,recall|size:date > 7 days,0.52663,0.47510,0.60844
-model_full,1.00000,recall|size:date > 7 days,0.79208,0.73884,0.83546
-model_full,0.05000,recall|type:decimal_slip,0.23058,0.20499,0.26908
-model_full,0.10000,recall|type:decimal_slip,0.33975,0.30663,0.38462
-model_full,0.25000,recall|type:decimal_slip,0.54551,0.50193,0.61640
-model_full,0.50000,recall|type:decimal_slip,0.90971,0.86320,0.94605
-model_full,1.00000,recall|type:decimal_slip,0.97668,0.95480,0.99318
-model_full,0.05000,recall|type:patient_swap,0.00000,0.00000,0.00000
-model_full,0.10000,recall|type:patient_swap,0.00000,0.00000,0.00192
-model_full,0.25000,recall|type:patient_swap,0.01044,0.00152,0.02119
-model_full,0.50000,recall|type:patient_swap,0.07512,0.04430,0.11330
-model_full,1.00000,recall|type:patient_swap,0.19689,0.14656,0.25156
-model_full,0.05000,recall|type:unit_error,0.09820,0.07257,0.11682
-model_full,0.10000,recall|type:unit_error,0.13578,0.11135,0.16252
-model_full,0.25000,recall|type:unit_error,0.43337,0.35548,0.50444
-model_full,0.50000,recall|type:unit_error,0.75749,0.70171,0.80257
-model_full,1.00000,recall|type:unit_error,0.92464,0.88424,0.95618
-model_full,0.05000,precision,1.00000,1.00000,1.00000
-model_full,0.10000,precision,1.00000,0.99375,1.00000
-model_full,0.25000,precision,0.97632,0.93671,0.99460
-model_full,0.50000,precision,0.82092,0.77025,0.86490
-model_full,1.00000,precision,0.52974,0.49137,0.56433
-model_full,0.05000,recall|size:0.5-2.0 sd,0.00000,0.00000,0.00000
-model_full,0.10000,recall|size:0.5-2.0 sd,0.00000,0.00000,0.00000
-model_full,0.25000,recall|size:0.5-2.0 sd,0.00192,0.00000,0.00714
-model_full,0.50000,recall|size:0.5-2.0 sd,0.04398,0.02544,0.06630
-model_full,1.00000,recall|size:0.5-2.0 sd,0.17701,0.13889,0.24178
-model_full,0.05000,recall|type:wrong_date,0.00278,0.00000,0.03729
-model_full,0.10000,recall|type:wrong_date,0.19860,0.13463,0.24511
-model_full,0.25000,recall|type:wrong_date,0.43737,0.39774,0.48510
-model_full,0.50000,recall|type:wrong_date,0.52663,0.47510,0.60844
-model_full,1.00000,recall|type:wrong_date,0.79208,0.73884,0.83546
 model_full,0.05000,yield,1.00000,1.00000,1.00000
 model_full,0.10000,yield,1.00000,0.99375,1.00000
 model_full,0.25000,yield,0.97632,0.93671,0.99460
 model_full,0.50000,yield,0.82092,0.77025,0.86490
 model_full,1.00000,yield,0.52974,0.49137,0.56433
+model_full,0.05000,precision,1.00000,1.00000,1.00000
+model_full,0.10000,precision,1.00000,0.99375,1.00000
+model_full,0.25000,precision,0.97632,0.93671,0.99460
+model_full,0.50000,precision,0.82092,0.77025,0.86490
+model_full,1.00000,precision,0.52974,0.49137,0.56433
+model_full,0.05000,queries_raised,15.00000,14.00000,17.00000
+model_full,0.10000,queries_raised,31.00000,27.00000,34.00000
+model_full,0.25000,queries_raised,76.00000,68.00000,85.00000
+model_full,0.50000,queries_raised,153.00000,136.00000,170.00000
+model_full,1.00000,queries_raised,306.00000,272.00000,339.00000
+model_full,0.05000,recall,0.05617,0.05292,0.06346
+model_full,0.10000,recall,0.11609,0.10623,0.12567
+model_full,0.25000,recall,0.27762,0.25558,0.30606
+model_full,0.50000,recall,0.46941,0.43480,0.50286
+model_full,1.00000,recall,0.60534,0.57554,0.63587
+model_full,0.05000,recall|type:wrong_date,0.00278,0.00000,0.03729
+model_full,0.10000,recall|type:wrong_date,0.19860,0.13463,0.24511
+model_full,0.25000,recall|type:wrong_date,0.43737,0.39774,0.48510
+model_full,0.50000,recall|type:wrong_date,0.52663,0.47510,0.60844
+model_full,1.00000,recall|type:wrong_date,0.79208,0.73884,0.83546
+model_full,0.05000,recall|type:patient_swap,0.00000,0.00000,0.00000
+model_full,0.10000,recall|type:patient_swap,0.00000,0.00000,0.00192
+model_full,0.25000,recall|type:patient_swap,0.01044,0.00152,0.02119
+model_full,0.50000,recall|type:patient_swap,0.07512,0.04430,0.11330
+model_full,1.00000,recall|type:patient_swap,0.19689,0.14656,0.25156
+model_full,0.05000,recall|type:copy_previous,0.00000,0.00000,0.00000
+model_full,0.10000,recall|type:copy_previous,0.00000,0.00000,0.00000
+model_full,0.25000,recall|type:copy_previous,0.00000,0.00000,0.00855
+model_full,0.50000,recall|type:copy_previous,0.01302,0.00400,0.02389
+model_full,1.00000,recall|type:copy_previous,0.06697,0.04396,0.08740
+model_full,0.05000,recall|type:unit_error,0.09820,0.07257,0.11682
+model_full,0.10000,recall|type:unit_error,0.13578,0.11135,0.16252
+model_full,0.25000,recall|type:unit_error,0.43337,0.35548,0.50444
+model_full,0.50000,recall|type:unit_error,0.75749,0.70171,0.80257
+model_full,1.00000,recall|type:unit_error,0.92464,0.88424,0.95618
+model_full,0.05000,recall|type:decimal_slip,0.23058,0.20499,0.26908
+model_full,0.10000,recall|type:decimal_slip,0.33975,0.30663,0.38462
+model_full,0.25000,recall|type:decimal_slip,0.54551,0.50193,0.61640
+model_full,0.50000,recall|type:decimal_slip,0.90971,0.86320,0.94605
+model_full,1.00000,recall|type:decimal_slip,0.97668,0.95480,0.99318
+model_full,0.05000,recall|type:digit_transposition,0.01544,0.00500,0.02628
+model_full,0.10000,recall|type:digit_transposition,0.03631,0.02067,0.05613
+model_full,0.25000,recall|type:digit_transposition,0.24855,0.20260,0.29799
+model_full,0.50000,recall|type:digit_transposition,0.54588,0.48247,0.59242
+model_full,1.00000,recall|type:digit_transposition,0.69015,0.65120,0.74661
+model_full,0.05000,recall|size:0.5-2.0 sd,0.00000,0.00000,0.00000
+model_full,0.10000,recall|size:0.5-2.0 sd,0.00000,0.00000,0.00000
+model_full,0.25000,recall|size:0.5-2.0 sd,0.00192,0.00000,0.00714
+model_full,0.50000,recall|size:0.5-2.0 sd,0.04398,0.02544,0.06630
+model_full,1.00000,recall|size:0.5-2.0 sd,0.17701,0.13889,0.24178
+model_full,0.05000,recall|size:< 0.5 sd,0.00000,0.00000,0.00000
+model_full,0.10000,recall|size:< 0.5 sd,0.00000,0.00000,0.00000
+model_full,0.25000,recall|size:< 0.5 sd,0.00000,0.00000,0.00000
+model_full,0.50000,recall|size:< 0.5 sd,0.00196,0.00000,0.00656
+model_full,1.00000,recall|size:< 0.5 sd,0.01787,0.00640,0.02921
 model_full,0.05000,recall|size:> 2.0 sd,0.11526,0.10558,0.12559
 model_full,0.10000,recall|size:> 2.0 sd,0.17244,0.16082,0.18935
 model_full,0.25000,recall|size:> 2.0 sd,0.42420,0.38076,0.47866
 model_full,0.50000,recall|size:> 2.0 sd,0.77240,0.71950,0.81437
 model_full,1.00000,recall|size:> 2.0 sd,0.90377,0.87325,0.92919
+model_full,0.05000,recall|size:date > 7 days,0.00278,0.00000,0.03729
+model_full,0.10000,recall|size:date > 7 days,0.19860,0.13463,0.24511
+model_full,0.25000,recall|size:date > 7 days,0.43737,0.39774,0.48510
+model_full,0.50000,recall|size:date > 7 days,0.52663,0.47510,0.60844
+model_full,1.00000,recall|size:date > 7 days,0.79208,0.73884,0.83546
 model_full,0.05000,diff_vs_rules|yield,0.24000,0.17500,0.28128
 model_full,0.10000,diff_vs_rules|yield,0.21935,0.18571,0.25938
 model_full,0.25000,diff_vs_rules|yield,0.16053,0.10972,0.19861
@@ -249,76 +249,76 @@ model_full,0.10000,diff_vs_rules|queries_raised,0.00000,0.00000,0.00000
 model_full,0.25000,diff_vs_rules|queries_raised,0.00000,0.00000,0.00000
 model_full,0.50000,diff_vs_rules|queries_raised,0.60000,0.00000,9.30000
 model_full,1.00000,diff_vs_rules|queries_raised,134.90000,108.59750,158.70000
-combined,0.05000,recall,0.04421,0.04129,0.05188
-combined,0.10000,recall,0.09061,0.08214,0.09967
-combined,0.25000,recall,0.23284,0.21262,0.26194
-combined,0.50000,recall,0.45910,0.40307,0.51863
-combined,1.00000,recall,0.63288,0.60870,0.66057
-combined,0.05000,recall|type:digit_transposition,0.00000,0.00000,0.00000
-combined,0.10000,recall|type:digit_transposition,0.00000,0.00000,0.00000
-combined,0.25000,recall|type:digit_transposition,0.02288,0.00818,0.06514
-combined,0.50000,recall|type:digit_transposition,0.38635,0.27639,0.50074
-combined,1.00000,recall|type:digit_transposition,0.70505,0.66313,0.74634
-combined,0.05000,recall|size:< 0.5 sd,0.00000,0.00000,0.00000
-combined,0.10000,recall|size:< 0.5 sd,0.00000,0.00000,0.00000
-combined,0.25000,recall|size:< 0.5 sd,0.00000,0.00000,0.00000
-combined,0.50000,recall|size:< 0.5 sd,0.00189,0.00000,0.00577
-combined,1.00000,recall|size:< 0.5 sd,0.01041,0.00256,0.02265
-combined,0.05000,queries_raised,15.00000,14.00000,17.00000
-combined,0.10000,queries_raised,31.00000,27.00000,34.00000
-combined,0.25000,queries_raised,76.00000,68.00000,85.00000
-combined,0.50000,queries_raised,153.00000,136.00000,170.00000
-combined,1.00000,queries_raised,306.00000,272.00000,339.00000
-combined,0.05000,recall|type:copy_previous,0.00000,0.00000,0.00000
-combined,0.10000,recall|type:copy_previous,0.00000,0.00000,0.00000
-combined,0.25000,recall|type:copy_previous,0.00000,0.00000,0.00000
-combined,0.50000,recall|type:copy_previous,0.00644,0.00000,0.01496
-combined,1.00000,recall|type:copy_previous,0.05145,0.03196,0.07265
-combined,0.05000,recall|size:date > 7 days,0.27518,0.25672,0.33477
-combined,0.10000,recall|size:date > 7 days,0.55537,0.50133,0.62818
-combined,0.25000,recall|size:date > 7 days,0.99164,0.96224,0.99796
-combined,0.50000,recall|size:date > 7 days,1.00000,1.00000,1.00000
-combined,1.00000,recall|size:date > 7 days,1.00000,1.00000,1.00000
-combined,0.05000,recall|type:decimal_slip,0.00000,0.00000,0.00513
-combined,0.10000,recall|type:decimal_slip,0.00513,0.00000,0.02050
-combined,0.25000,recall|type:decimal_slip,0.26867,0.19569,0.37959
-combined,0.50000,recall|type:decimal_slip,0.82905,0.72791,0.91555
-combined,1.00000,recall|type:decimal_slip,0.98837,0.97445,1.00000
-combined,0.05000,recall|type:patient_swap,0.00000,0.00000,0.00000
-combined,0.10000,recall|type:patient_swap,0.00000,0.00000,0.00000
-combined,0.25000,recall|type:patient_swap,0.00000,0.00000,0.00000
-combined,0.50000,recall|type:patient_swap,0.00167,0.00000,0.02256
-combined,1.00000,recall|type:patient_swap,0.17327,0.11909,0.23211
-combined,0.05000,recall|type:unit_error,0.00000,0.00000,0.00000
-combined,0.10000,recall|type:unit_error,0.00204,0.00000,0.00698
-combined,0.25000,recall|type:unit_error,0.13454,0.09253,0.18203
-combined,0.50000,recall|type:unit_error,0.55895,0.44001,0.68630
-combined,1.00000,recall|type:unit_error,0.90205,0.86423,0.94256
-combined,0.05000,precision,0.78667,0.74375,0.85625
-combined,0.10000,precision,0.78065,0.74667,0.82070
-combined,0.25000,precision,0.81711,0.78101,0.84723
-combined,0.50000,precision,0.80131,0.71656,0.86336
-combined,1.00000,precision,0.55359,0.51489,0.58904
-combined,0.05000,recall|size:0.5-2.0 sd,0.00000,0.00000,0.00000
-combined,0.10000,recall|size:0.5-2.0 sd,0.00000,0.00000,0.00000
-combined,0.25000,recall|size:0.5-2.0 sd,0.00000,0.00000,0.00000
-combined,0.50000,recall|size:0.5-2.0 sd,0.00400,0.00000,0.02643
-combined,1.00000,recall|size:0.5-2.0 sd,0.15614,0.11696,0.21778
-combined,0.05000,recall|type:wrong_date,0.27518,0.25672,0.33477
-combined,0.10000,recall|type:wrong_date,0.55537,0.50133,0.62818
-combined,0.25000,recall|type:wrong_date,0.99164,0.96224,0.99796
-combined,0.50000,recall|type:wrong_date,1.00000,1.00000,1.00000
-combined,1.00000,recall|type:wrong_date,1.00000,1.00000,1.00000
 combined,0.05000,yield,0.78667,0.74375,0.85625
 combined,0.10000,yield,0.78065,0.74667,0.82070
 combined,0.25000,yield,0.81711,0.78101,0.84723
 combined,0.50000,yield,0.80131,0.71656,0.86336
 combined,1.00000,yield,0.55359,0.51489,0.58904
+combined,0.05000,precision,0.78667,0.74375,0.85625
+combined,0.10000,precision,0.78065,0.74667,0.82070
+combined,0.25000,precision,0.81711,0.78101,0.84723
+combined,0.50000,precision,0.80131,0.71656,0.86336
+combined,1.00000,precision,0.55359,0.51489,0.58904
+combined,0.05000,queries_raised,15.00000,14.00000,17.00000
+combined,0.10000,queries_raised,31.00000,27.00000,34.00000
+combined,0.25000,queries_raised,76.00000,68.00000,85.00000
+combined,0.50000,queries_raised,153.00000,136.00000,170.00000
+combined,1.00000,queries_raised,306.00000,272.00000,339.00000
+combined,0.05000,recall,0.04421,0.04129,0.05188
+combined,0.10000,recall,0.09061,0.08214,0.09967
+combined,0.25000,recall,0.23284,0.21262,0.26194
+combined,0.50000,recall,0.45910,0.40307,0.51863
+combined,1.00000,recall,0.63288,0.60870,0.66057
+combined,0.05000,recall|type:wrong_date,0.27518,0.25672,0.33477
+combined,0.10000,recall|type:wrong_date,0.55537,0.50133,0.62818
+combined,0.25000,recall|type:wrong_date,0.99164,0.96224,0.99796
+combined,0.50000,recall|type:wrong_date,1.00000,1.00000,1.00000
+combined,1.00000,recall|type:wrong_date,1.00000,1.00000,1.00000
+combined,0.05000,recall|type:patient_swap,0.00000,0.00000,0.00000
+combined,0.10000,recall|type:patient_swap,0.00000,0.00000,0.00000
+combined,0.25000,recall|type:patient_swap,0.00000,0.00000,0.00000
+combined,0.50000,recall|type:patient_swap,0.00167,0.00000,0.02256
+combined,1.00000,recall|type:patient_swap,0.17327,0.11909,0.23211
+combined,0.05000,recall|type:copy_previous,0.00000,0.00000,0.00000
+combined,0.10000,recall|type:copy_previous,0.00000,0.00000,0.00000
+combined,0.25000,recall|type:copy_previous,0.00000,0.00000,0.00000
+combined,0.50000,recall|type:copy_previous,0.00644,0.00000,0.01496
+combined,1.00000,recall|type:copy_previous,0.05145,0.03196,0.07265
+combined,0.05000,recall|type:unit_error,0.00000,0.00000,0.00000
+combined,0.10000,recall|type:unit_error,0.00204,0.00000,0.00698
+combined,0.25000,recall|type:unit_error,0.13454,0.09253,0.18203
+combined,0.50000,recall|type:unit_error,0.55895,0.44001,0.68630
+combined,1.00000,recall|type:unit_error,0.90205,0.86423,0.94256
+combined,0.05000,recall|type:decimal_slip,0.00000,0.00000,0.00513
+combined,0.10000,recall|type:decimal_slip,0.00513,0.00000,0.02050
+combined,0.25000,recall|type:decimal_slip,0.26867,0.19569,0.37959
+combined,0.50000,recall|type:decimal_slip,0.82905,0.72791,0.91555
+combined,1.00000,recall|type:decimal_slip,0.98837,0.97445,1.00000
+combined,0.05000,recall|type:digit_transposition,0.00000,0.00000,0.00000
+combined,0.10000,recall|type:digit_transposition,0.00000,0.00000,0.00000
+combined,0.25000,recall|type:digit_transposition,0.02288,0.00818,0.06514
+combined,0.50000,recall|type:digit_transposition,0.38635,0.27639,0.50074
+combined,1.00000,recall|type:digit_transposition,0.70505,0.66313,0.74634
+combined,0.05000,recall|size:0.5-2.0 sd,0.00000,0.00000,0.00000
+combined,0.10000,recall|size:0.5-2.0 sd,0.00000,0.00000,0.00000
+combined,0.25000,recall|size:0.5-2.0 sd,0.00000,0.00000,0.00000
+combined,0.50000,recall|size:0.5-2.0 sd,0.00400,0.00000,0.02643
+combined,1.00000,recall|size:0.5-2.0 sd,0.15614,0.11696,0.21778
+combined,0.05000,recall|size:< 0.5 sd,0.00000,0.00000,0.00000
+combined,0.10000,recall|size:< 0.5 sd,0.00000,0.00000,0.00000
+combined,0.25000,recall|size:< 0.5 sd,0.00000,0.00000,0.00000
+combined,0.50000,recall|size:< 0.5 sd,0.00189,0.00000,0.00577
+combined,1.00000,recall|size:< 0.5 sd,0.01041,0.00256,0.02265
 combined,0.05000,recall|size:> 2.0 sd,0.00000,0.00000,0.00154
 combined,0.10000,recall|size:> 2.0 sd,0.00224,0.00000,0.00733
 combined,0.25000,recall|size:> 2.0 sd,0.14554,0.10625,0.20749
 combined,0.50000,recall|size:> 2.0 sd,0.60775,0.49728,0.72176
 combined,1.00000,recall|size:> 2.0 sd,0.90269,0.87157,0.92937
+combined,0.05000,recall|size:date > 7 days,0.27518,0.25672,0.33477
+combined,0.10000,recall|size:date > 7 days,0.55537,0.50133,0.62818
+combined,0.25000,recall|size:date > 7 days,0.99164,0.96224,0.99796
+combined,0.50000,recall|size:date > 7 days,1.00000,1.00000,1.00000
+combined,1.00000,recall|size:date > 7 days,1.00000,1.00000,1.00000
 combined,0.05000,diff_vs_rules|yield,0.02667,-0.01250,0.07333
 combined,0.10000,diff_vs_rules|yield,0.00000,-0.01250,0.02667
 combined,0.25000,diff_vs_rules|yield,0.00132,-0.00247,0.00253
