@@ -416,8 +416,8 @@ results reported here.
 
 **What CI runs.** On every push and pull request, the `pipeline` workflow runs
 `make all-quick` on Ubuntu, download included, and fails if any step fails,
-including any cell of the notebook. That takes about 13 minutes, most of it the
-download. The full `make all` takes about an hour on a GitHub-hosted runner
+including any cell of the notebook. That takes 12 to 20 minutes, most of it
+the download. The full `make all` takes about an hour on a GitHub-hosted runner
 (58 minutes on 21 October 2026, 16 of them the download), so it runs only when
 started by hand (Actions, pipeline, Run workflow, tick "full"); that job also
 lists the committed files its results differ from. On that run every number in
