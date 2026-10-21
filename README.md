@@ -163,8 +163,10 @@ injections for every variant:
 | Without baseline | 0.670 | -0.012 (-0.024 to 0.015) |
 
 Only the patient's own history matters at this budget. Cross-modal context
-helps where values are tied to each other at the same visit (next section), but
-those fields carry too few of the errors to move the overall number.
+helps where values are tied to each other at the same visit (see the index of
+individuality below), but those fields carry too few of the errors to move the
+overall number. On dense ICU data it helped a lot more; see the
+[comparison with the first experiment](#comparison-with-the-first-experiment).
 
 ### False-query control with conformal p-values
 
@@ -272,6 +274,59 @@ training patients) would have their swapped values detected more often.
 * **Some false queries are probably real errors.** For example, a calcium of
   2.7 mg/dL between readings of 8.3 and 8.5 counts as a false query because it
   was not injected.
+
+## Comparison with the first experiment
+
+An earlier proof of concept on the same demo (not part of this repository)
+scored every value at its own timestamp, which for ICU vital signs means about
+hourly. There the model caught 42% of swapped values, and the other modalities
+mattered: 27% with the patient's own trajectory only, 20% with the other
+modalities only, 42% with both. Here swap recall is 6% at the primary budget
+and the other modalities add almost nothing. Several things changed at once,
+so this is not a controlled comparison:
+
+* **Operating point.** The 42% is recall at |z| > 4, which queried 4.3% of
+  all values (5,437 of 127,414). The primary budget here queries 1.4% of the
+  held-out cells (76 of 5,422), and swaps compete with five other error types
+  for those queries. At one query per patient-visit (5.6% of cells) swap
+  recall is 29%.
+* **How swaps were made.** There a swapped value had to differ from the
+  original by at least one robust SD; here any two patients' values for the
+  same field and visit are exchanged, so some swaps change almost nothing.
+* **Measurement density.** Hourly, the neighbouring values of the same field
+  are an hour to half a day away and the patient has hardly changed. At daily
+  and weekly visits they are one to seven days away and the illness itself
+  moves the values. Here 46% of swaps move the value by less than two of the
+  patient's typical visit-to-visit SDs (median within-patient SD of the field
+  in training patients).
+* **How much same-time context there is to learn from.** The dense data had
+  127,414 values, 88,038 of them vital signs, every blood pressure charted with
+  its components, and an anion gap field tied to sodium, chloride and
+  bicarbonate. Here there are 11,007 cells, about half of them in training
+  patients, and no anion gap. A tree model has few examples from which to learn
+  that MAP is about (SBP + 2 DBP) / 3. Mean arterial pressure went from 12% to
+  79% swap recall with cross-modal context on dense data; here its AUROC moves
+  from 0.65 to 0.72.
+* **Other differences:** 5% errors instead of 2%, and no held-out patients in
+  the first experiment.
+
+The fields that gain from cross-modal context are the same in both: diastolic
+pressure (dense swap recall 13% to 57%; here AUROC 0.64 to 0.90), sodium (29%
+to 53%; 0.59 to 0.84) and hematocrit (41% to 60%; 0.65 to 0.83). Here those
+gains are too small at the top of the ranking to matter: at one query per
+patient-visit, in the 10 ablation replicates, adding the other modalities to
+the own-history model raises swap recall from 0.22 to 0.25 (difference 0.04,
+95% CI -0.03 to 0.10), against 27% to 42% on dense data.
+
+**A hypothesis for future work, not a finding of this repository:**
+measurement density is one of the factors that decide when multimodal context
+helps. When fields are recorded often and together, the same-time values of
+other fields say a lot about the value being checked and there are enough of
+them to learn how fields move together; at trial-like visit frequencies the
+patient's own history carries most of the signal. Testing this needs a sweep
+over visit spacing on the same data (for example hourly, every 6 hours, daily,
+weekly) with the swap definition, error rate, held-out patients and budget
+held fixed. Nothing here tests it.
 
 ## What is new
 
