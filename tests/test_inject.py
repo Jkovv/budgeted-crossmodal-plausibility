@@ -68,3 +68,46 @@ def test_unit_error(field, value, expected):
 def test_unit_error_not_applicable(field):
     from bcp import config as C
     assert I.unit_error(100.0, C.VALUE_FIELDS[field]["alt"]) is None
+
+
+def _dn(y, m, d):
+    import datetime as dt
+    return (dt.date(y, m, d) - I.EPOCH).days
+
+
+def _back(n):
+    import datetime as dt
+    return I.EPOCH + dt.timedelta(days=n)
+
+
+def test_date_typos_cover_the_four_mechanisms():
+    t = I.date_typos(_dn(2150, 3, 12))
+    got = {k: sorted(str(_back(x)) for x in v) for k, v in t.items()}
+    assert got == {"day_month_exchanged": ["2150-12-03"],
+                   "day_digits_exchanged": ["2150-03-21"],
+                   "month_off_by_one": ["2150-02-12", "2150-04-12"],
+                   "year_off_by_one": ["2149-03-12", "2151-03-12"]}
+
+
+def test_date_typos_skip_impossible_dates():
+    jan31 = I.date_typos(_dn(2150, 1, 31))
+    assert "day_month_exchanged" not in jan31                   # 31 is not a month
+    assert [str(_back(x)) for x in jan31["day_digits_exchanged"]] == ["2150-01-13"]
+    assert "month_off_by_one" not in jan31                      # no month 0, no 31 february
+    assert "month_off_by_one" not in I.date_typos(_dn(2150, 3, 31))
+    assert "day_month_exchanged" not in I.date_typos(_dn(2150, 5, 5))
+    may5 = I.date_typos(_dn(2150, 5, 5))
+    assert "day_digits_exchanged" not in may5                   # 05 -> 50
+    assert "day_digits_exchanged" not in I.date_typos(_dn(2150, 5, 11))
+
+
+def test_wrong_date_is_always_a_different_valid_date():
+    rng = np.random.default_rng(3)
+    start = _dn(2150, 1, 1)
+    mechs = set()
+    for k in range(400):
+        n = start + k
+        new, mech = I.wrong_date(n, rng)
+        assert new != n
+        mechs.add(mech)
+    assert mechs == {"day_month_exchanged", "day_digits_exchanged", "month_off_by_one", "year_off_by_one"}
